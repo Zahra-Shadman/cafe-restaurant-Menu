@@ -1,10 +1,11 @@
-import AdminSidebar from "@/components/admin.sidebar";
-import AdminProductTable from "@/components/Product.table";
+import GetProductsTable from "@/components/admin/getAllProduct";
+
+
 
 export default function ProductList (){
     return(
         <div>
-            <AdminProductTable />
+            <GetProductsTable />
         </div>
     )
 }
