@@ -1,16 +1,9 @@
-export interface IProductResponse {
-  status: "success";
-  page: number;
-  per_page: number;
-  total: number;
-  total_pages: number;
-  data: IProductData;
-}
+import { ReactNode } from "react";
 
-export interface IProductData {
-  products: IProduct[];
+export interface IRating {
+  rate: number;
+  count: number;
 }
-
 export interface IProduct {
   _id: string;
   category: string;
@@ -23,4 +16,15 @@ export interface IProduct {
   thumbnail: string;
   images: string[];
   slugname: string;
+}
+
+export interface IApiRes {
+  status: string;
+  page: number;
+  per_page: number;
+  total: number;
+  total_pages: number;
+  data: {
+    products: IProduct[];
+  };
 }
