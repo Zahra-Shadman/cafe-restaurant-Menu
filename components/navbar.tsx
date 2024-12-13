@@ -1,20 +1,22 @@
 "use client";
 
 import React, { useState } from "react";
-import { LuPizza } from "react-icons/lu";
-import { AiOutlineLogin } from "react-icons/ai";
-import { RiAdminLine } from "react-icons/ri";
-import { TbMessageCircleQuestion } from "react-icons/tb";
 import Image from "next/image";
 import { HiMenu, HiX } from "react-icons/hi";
-import { FaSearch } from "react-icons/fa";
 import Link from "next/link";
+import { SearshInput } from "./search-input";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   return (
@@ -24,14 +26,7 @@ export function Navbar() {
       }`}
     >
       <div className="flex items-center w-full md:w-52 mb-2 md:mb-0">
-        <div className="relative w-full">
-          <input
-            className="w-full rounded-md text-center p-2 pl-10"
-            type="text"
-            placeholder="محصول مورد نظر خود را وارد کنید"
-          />
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-        </div>
+        <SearshInput />
         <button onClick={toggleMenu} className="text-gray-800 md:hidden ml-2">
           {isOpen ? (
             <HiX className="w-6 h-6" />
@@ -41,9 +36,10 @@ export function Navbar() {
         </button>
       </div>
       <Image
-        src={"/Shake_Shack_logo.svg"}
+        className="lg:ml-32 flex"
+        src={"/lucent-cafe.svg"}
         alt={"logo"}
-        width={170}
+        width={160}
         height={0}
       />
 
@@ -55,36 +51,66 @@ export function Navbar() {
         {isOpen && (
           <button
             onClick={toggleMenu}
-            className="absolute top-4 right-4 text-gray-800 md:hidden"
+            className="flex justify-center text-gray-800 md:hidden flex-col-reverse"
           >
             <HiX className="w-6 h-6" />
           </button>
         )}
 
         <Link href={"/About-us"}>
-          <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
-            <TbMessageCircleQuestion className="w-5 h-5" />
+          <button className="flex items-center justify-center text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
             درباه ما
           </button>
         </Link>
         <Link href={"/Login-user"}>
           <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
-            <AiOutlineLogin className="w-5 h-5" />
             ورود/ ثبت نام
           </button>
         </Link>
-        <Link href={"/Admin"}>
+        <Link href={"/admin"}>
           <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
-            <RiAdminLine className="w-5 h-5" />
             پنل ادمین
           </button>
         </Link>
-        <Link href={"/Product"}>
-          <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
-            <LuPizza className="w-5 h-5" />
-            منو
+        
+        <div className="relative inline-block text-left">
+          <button
+            onClick={toggleDropdown}
+            className="flex items-center justify-center shadow-md text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto"
+          >
+            <RiArrowDropDownLine className="w-5 h-5" /> منو
           </button>
-        </Link>
+
+ {isDropdownOpen && (
+            <div
+              id="dropdownNavbar"
+              className="z-10 absolute right-0 mt-2 w-52 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-greenbtn"
+            >
+              <ul className="py-2 text-sm text-gray-700 dark:text-gray-100" aria-labelledby="dropdownLargeButton">
+                <li>
+                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">cafe/ کافه</a>
+                </li>
+                <li>
+                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Main dish / غذاهای اصلی</a>
+                </li>
+                <li>
+                  <a href="#"className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Appetizer / پیش غذا</a>
+                </li>
+                <li>
+                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Breackfast / صبحانه</a>
+                </li>
+                <li>
+                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Drinks / نوشیدنی ها</a>
+                </li>
+                <li>
+                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Special items / ویژه</a>
+                </li>
+                
+              </ul>
+            
+            </div>
+          )}
+        </div>
         <Link href={"/Shop"}></Link>
       </section>
     </header>

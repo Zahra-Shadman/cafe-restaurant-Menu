@@ -1,0 +1,32 @@
+{
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "axe/name-role-value": "off",
+    "button-type": "off",
+    "axe/forms": [
+      "default",
+      {
+        "label": "off",
+        "select-name": "off"
+      }
+    ],
+    "typescript-config/consistent-casing": "off",
+    "no-inline-styles": "off",
+    "axe/parsing": "off",
+    "disown-opener": "off",
+    "axe/aria": [
+      "default",
+      {
+        "empty-table-header": "off"
+      }
+    ],
+    "axe/structure": [
+      "default",
+      {
+        "list": "off"
+      }
+    ]
+  }
+}
