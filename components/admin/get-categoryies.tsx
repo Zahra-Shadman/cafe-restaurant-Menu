@@ -53,12 +53,10 @@ const Categories: React.FC = () => {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <div className='flex flex-row gap-10 justify-center '>
             {categories.map(category => (
-                <div key={category._id} style={{ margin: '10px', border: '1px solid #ccc', padding: '10px', width: '200px' }}>
-                    <h3>{category.name}</h3>
-                    <img src={`http://localhost:8000/api/categories/icons/${category.icon[0]}`} alt={category.name} style={{ width: '50px', height: '50px' }} />
-                 
+                <div key={category._id} className='bg-gray-200 rounded-md p-2 mx-auto '>
+                    <h3>{category.name}</h3>                 
                 </div>
             ))}
         </div>

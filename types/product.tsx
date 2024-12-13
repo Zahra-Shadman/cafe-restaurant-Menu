@@ -28,3 +28,19 @@ export interface IApiRes {
     products: IProduct[];
   };
 }
+
+export interface IcardProduct {
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  images: string[];
+}
+
+export interface IcardApiRes {
+  status: string;
+  data: {
+    products: IProduct[];
+  };
+  total_pages: number;
+}

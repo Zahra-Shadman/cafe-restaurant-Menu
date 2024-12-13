@@ -8,28 +8,14 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 import NavForProduct from './product.page.navbar';
 import ProductRate from './product.rate';
 
-import axios from 'axios'; // Make sure to import axios
+import axios from 'axios'; 
 import Categories from './admin/get-categoryies';
+import { IcardApiRes, IcardProduct } from '@/types/product';
 
-// Define your types here
-interface IProduct {
-  _id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  images: string[];
-}
 
-interface IApiRes {
-  status: string;
-  data: {
-    products: IProduct[];
-  };
-  total_pages: number;
-}
 
 export const GetProductsTable: React.FC = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<IcardProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +25,7 @@ export const GetProductsTable: React.FC = () => {
   const fetchProducts = async (page: number) => {
     setLoading(true);
     try {
-      const response = await axios.get<IApiRes>(
+      const response = await axios.get<IcardApiRes>(
         `http://localhost:8000/api/products?page=${page}&limit=${limit}&fields=-rating,-createdAt,-updatedAt,-__v&sort=price&quantity[gte]=8`
       );
       if (response.data.status === "success") {
@@ -68,7 +54,7 @@ export const GetProductsTable: React.FC = () => {
   return <ProductCard products={products} />;
 };
 
-const ProductCard: React.FC<{ products: IProduct[] }> = ({ products }) => {
+const ProductCard: React.FC<{ products: IcardProduct[] }> = ({ products }) => {
   return (
     <div className="py-8 antialiased bg-gray-50 md:py-12">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
@@ -118,7 +104,7 @@ const ProductCard: React.FC<{ products: IProduct[] }> = ({ products }) => {
                 <ProductRate />
                 <ul className="mt-2 flex items-center gap-4">
                   <li className="flex items-center gap-2">
-                    <p className="text-sm font-medium text-gray-500">Price: {product._id}</p>
+                 
                   </li>
                 </ul>
                <div className="mt-4 flex items-center justify-between gap-4">

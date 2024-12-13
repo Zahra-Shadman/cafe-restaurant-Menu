@@ -8,6 +8,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import { BiSolidEdit } from "react-icons/bi";
 import { MdNavigateNext } from "react-icons/md";
 import { IoChevronBackSharp } from "react-icons/io5";
+import AddProductModal from "../add.product.modal";
 
 export const GetProductsTable: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -68,9 +69,7 @@ export const GetProductsTable: React.FC = () => {
               <th className=" p-2"></th>
               <th className=" p-2"></th>
               <th className=" p-2 font-thin ">
-                <button className=" w-36 bg-gray-100 py-2 rounded-md  hover:bg-gray-300 ">
-                +محصول جدید
-                </button>
+              <AddProductModal />
               </th>
               <th className=" p-2 ">
                 <div className="flex flex-col">
