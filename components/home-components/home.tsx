@@ -2,7 +2,7 @@
 
 import React from "react";
 import Slideshow from "./slider-home";
-import HomeFooter from "./footer";
+import HomeFooter from "../header.footer/footer";
 import Link from "next/link";
 
 const ImageMainHome: React.FC = () => {

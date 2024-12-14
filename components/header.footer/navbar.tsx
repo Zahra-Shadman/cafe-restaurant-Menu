@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { HiMenu, HiX } from "react-icons/hi";
 import Link from "next/link";
-import { SearshInput } from "./search-input";
+import { SearshInput } from "../home-components/search-input";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 export function Navbar() {
@@ -88,7 +88,7 @@ export function Navbar() {
             >
               <ul className="py-2 text-sm text-gray-700 dark:text-gray-100" aria-labelledby="dropdownLargeButton">
                 <li>
-                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">cafe/ کافه</a>
+              <Link href={"/menu/cafe"}>  <button  className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">cafe/ کافه</button></Link>   
                 </li>
                 <li>
                   <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Main dish / غذاهای اصلی</a>

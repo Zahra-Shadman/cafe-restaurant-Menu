@@ -28,6 +28,7 @@ export default function DashComponent (){
                 <div className="bg-pink-500 text-white p-4 rounded-full mr-4">
 
 
+
                 <AiFillProduct className="w-5 h-5" />
 
                 </div>

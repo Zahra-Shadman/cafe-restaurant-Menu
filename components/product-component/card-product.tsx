@@ -9,7 +9,7 @@ import NavForProduct from './product.page.navbar';
 import ProductRate from './product.rate';
 
 import axios from 'axios'; 
-import Categories from './admin/get-categoryies';
+import Categories from '../admin/get-categoryies';
 import { IcardApiRes, IcardProduct } from '@/types/product';
 
 
