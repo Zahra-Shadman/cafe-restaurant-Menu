@@ -13,7 +13,7 @@ const ImageMainHome: React.FC = () => {
       <h1 className="text-center text-4xl font-bold text-teal-700">THEREFORE I AM</h1>
       <p className="text-center text-teal-700 mt-4">You can always expect new taste and food when you explore Jo's menu</p>
       <div className="text-center mt-4">
-         <Link href={"/Product"}> <button className="bg-teal-700 text-white py-2 px-4 rounded">سفارش آنلاین</button></Link>
+         <Link href={"/menu"}> <button className="bg-teal-700 text-white py-2 px-4 rounded">سفارش آنلاین</button></Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
           <div className="md:col-span-1">

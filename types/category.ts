@@ -1,19 +1,28 @@
-export interface ICategory {
+export interface IProduct {
     _id: string;
+    category: string;
+    subcategory: string;
     name: string;
-    icon: string;
-    createdAt: string;
-    updatedAt: string;
+    price: number;
+    quantity: number;
+    brand: string;
+    description: string;
+    thumbnail: string;
+    images: string[];
     slugname: string;
 }
 
-export interface IApiRes {
-    status: string;
-    page: number;
-    per_page: number;
-    total: number;
-    total_pages: number;
-    data: {
-        categories: ICategory[];
-    };
+ export interface ICategory {
+    [x: string]: Key | null | undefined;
+    _id: string;
+    name: string;
+    icon: string;
+    slugname: string;
+}
+
+export interface ISubcategory {
+    _id: string;
+    category: string;
+    name: string;
+    slugname: string;
 }

@@ -1,4 +1,3 @@
-// lib/login.ts
 import { AdminUrl } from "@/api/urls";
 import { IadminLogReq } from "@/types/admin.login";
 import axios from "axios";

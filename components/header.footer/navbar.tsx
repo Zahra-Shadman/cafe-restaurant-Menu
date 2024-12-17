@@ -18,6 +18,9 @@ export function Navbar() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+  const handleMouseLeave = () => {
+    setIsOpen(false);
+  };
 
   return (
     <header
@@ -58,57 +61,67 @@ export function Navbar() {
         )}
 
         <Link href={"/About-us"}>
-          <button className="flex items-center justify-center text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
+          <button className="flex items-center justify-center text-gray-500 hover:text-greenbtn font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
             درباه ما
           </button>
         </Link>
         <Link href={"/Login-user"}>
-          <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
+          <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greenbtn font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
             ورود/ ثبت نام
           </button>
         </Link>
         <Link href={"/admin"}>
-          <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
+          <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greenbtn font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
             پنل ادمین
           </button>
         </Link>
-        
+
         <div className="relative inline-block text-left">
           <button
-            onClick={toggleDropdown}
-            className="flex items-center justify-center shadow-md text-gray-500 hover:text-greentext font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto"
+            onMouseEnter={toggleDropdown}
+            onMouseLeave={handleMouseLeave}
+            className="flex items-center justify-center shadow-md text-gray-500 hover:text-greenbtn font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto"
           >
             <RiArrowDropDownLine className="w-5 h-5" /> منو
           </button>
 
- {isDropdownOpen && (
-            <div
-              id="dropdownNavbar"
-              className="z-10 absolute right-0 mt-2 w-52 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-greenbtn"
-            >
-              <ul className="py-2 text-sm text-gray-700 dark:text-gray-100" aria-labelledby="dropdownLargeButton">
-                <li>
-              <Link href={"/menu/cafe"}>  <button  className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">cafe/ کافه</button></Link>   
-                </li>
-                <li>
-                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Main dish / غذاهای اصلی</a>
-                </li>
-                <li>
-                  <a href="#"className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Appetizer / پیش غذا</a>
-                </li>
-                <li>
-                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Breackfast / صبحانه</a>
-                </li>
-                <li>
-                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Drinks / نوشیدنی ها</a>
-                </li>
-                <li>
-                  <a href="#" className="block text-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-green-700 dark:hover:text-white">Special items / ویژه</a>
-                </li>
-                
-              </ul>
-            
-            </div>
+          {isDropdownOpen && (
+         <div id="dropdownNavbar" className="z-10 flex  justify-center absolute right-0 mt-2 w-52 bg-white divide-y divide-gray-100 rounded-lg shadow">
+         <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownLargeButton">
+           <li>
+             <Link href={"/menu/cafe"}>
+               <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
+                 cafe / کافه
+               </button>
+             </Link>
+           </li>
+           <li>
+             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
+               Main dish / غذاهای اصلی
+             </button>
+           </li>
+           <li>
+             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
+               Appetizer / پیش غذا
+             </button>
+           </li>
+           <li>
+             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
+               Breakfast / صبحانه
+             </button>
+           </li>
+           <li>
+             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
+               Drinks / نوشیدنی ها
+             </button>
+           </li>
+           <li>
+             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
+               Special items / ویژه
+             </button>
+           </li>
+         </ul>
+       </div>
           )}
         </div>
         <Link href={"/Shop"}></Link>

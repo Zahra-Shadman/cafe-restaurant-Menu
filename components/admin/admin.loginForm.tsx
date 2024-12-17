@@ -5,7 +5,6 @@ import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { PiUser } from "react-icons/pi";
 import { useState } from "react";
 import { login } from "@/libs/Login";
-import Image from "next/image";
 
 export const AdminLoginPage = () => {
   const [username, setUsername] = useState("");
@@ -46,7 +45,6 @@ export const AdminLoginPage = () => {
               خوش آمدید{" "}
             </h3>
           </div>
-
           <div className="relative flex items-center mb-6">
             <PiUser className="absolute left-2 w-[18px] h-[18px] text-gray-700 cursor-pointer" />
             <input
@@ -59,7 +57,6 @@ export const AdminLoginPage = () => {
               placeholder="نام کاربری"
             />
           </div>
-
           <div className="relative flex items-center mb-6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +80,6 @@ export const AdminLoginPage = () => {
               placeholder="رمز عبور"
             />
           </div>
-
           <div className="flex flex-wrap items-center justify-between gap-4 mt-6">
             <div className="flex items-center">
               <input
@@ -108,7 +104,6 @@ export const AdminLoginPage = () => {
               </a>
             </div>
           </div>
-
           <div className="mt-12">
             <button
               type="submit"

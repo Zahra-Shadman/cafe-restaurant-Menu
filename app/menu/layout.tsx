@@ -1,4 +1,4 @@
-import CategorySidebar from "@/components/product-component/get-categoryies";
+import NavForProduct from "@/components/product-component/product.page.navbar";
 
 export default function MenuLayout({
   children,
@@ -7,12 +7,9 @@ export default function MenuLayout({
 }) {
   return (
     <section className="flex">
-      <aside className="w-1/2"> 
-        <CategorySidebar />
-      </aside>
-      <main className="flex-1 p-4"> 
-        {children}
-      </main>
+      <NavForProduct />
+
+      <main className="flex-1 p-4">{children}</main>
     </section>
   );
 }

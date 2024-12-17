@@ -1,14 +1,14 @@
-"use client"; 
+"use client";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { IApiRes, IProduct } from "@/types/product"; 
+
 import { IoIosSearch } from "react-icons/io";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { BiSolidEdit } from "react-icons/bi";
 import { MdNavigateNext } from "react-icons/md";
 import { IoChevronBackSharp } from "react-icons/io5";
-import AddProductModal from "../add.product.modal";
+import { IProduct } from "@/types/category";
 
 export const GetProductsTable: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -18,7 +18,7 @@ export const GetProductsTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 9;
 
-   const fetchProducts = async (page: number) => {
+  const fetchProducts = async (page: number) => {
     setLoading(true);
     try {
       const response = await axios.get<IApiRes>(
@@ -31,7 +31,7 @@ export const GetProductsTable: React.FC = () => {
     } catch (err) {
       setError("Failed to fetch products");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -68,9 +68,7 @@ export const GetProductsTable: React.FC = () => {
               <th className="  p-2"></th>
               <th className=" p-2"></th>
               <th className=" p-2"></th>
-              <th className=" p-2 font-thin ">
-              <AddProductModal />
-              </th>
+              <th className=" p-2 font-thin "></th>
               <th className=" p-2 ">
                 <div className="flex flex-col">
                   <input
@@ -81,10 +79,7 @@ export const GetProductsTable: React.FC = () => {
                 </div>
               </th>
               <th className=" p-2">
-                <select
-                  
-                  className=" block font-thin w-[168px]  rounded-md border border-gray-100 bg-gray-100 p-1 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                >
+                <select className=" block font-thin w-[168px]  rounded-md border border-gray-100 bg-gray-100 p-1 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                   <option className="w-full">فیلتر بر اساس موجودی</option>
                   <option>فیلتر براساس قیمت</option>
                 </select>
@@ -145,7 +140,10 @@ export const GetProductsTable: React.FC = () => {
                 <td className="border border-gray-300 p-2 ">{product._id}</td>
 
                 <td className="border  border-gray-300 p-2">
-                <button>    <BiSolidEdit className="w-4 h-5 mr-4 " /></button>
+                  <button>
+                    {" "}
+                    <BiSolidEdit className="w-4 h-5 mr-4 " />
+                  </button>
 
                   <button className="text-red-500">
                     <MdOutlineDeleteOutline className="w-6 h-5" />
@@ -156,26 +154,27 @@ export const GetProductsTable: React.FC = () => {
           </tbody>
         </table>
         <div className="flex justify-center p-2 ">
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className="p-2 bg-green-500 text-white rounded disabled:opacity-50"
-        >
-          <IoChevronBackSharp />
-        </button>
-        <span className="self-center mx-2">
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-          className="p-2 bg-green-500 text-white rounded disabled:opacity-50"
-        >
-          <MdNavigateNext />
-        </button>
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="p-2 bg-green-500 text-white rounded disabled:opacity-50"
+          >
+            <IoChevronBackSharp />
+          </button>
+          <span className="self-center mx-2">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+            className="p-2 bg-green-500 text-white rounded disabled:opacity-50"
+          >
+            <MdNavigateNext />
+          </button>
+        </div>
       </div>
-      </div>
-
     </div>
   );
 };
