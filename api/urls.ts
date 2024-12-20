@@ -14,3 +14,6 @@ export const categoriesUrl = "http://localhost:8000/api/categories";
 export const subcategoriesUrl = "http://localhost:8000/api/subcategories?page=1";
 
 export const subcategoriesUrltwo = "http://localhost:8000/api/subcategories?page=2";
+
+
+export const NewProductUrl = "http://localhost:8000/api/products";

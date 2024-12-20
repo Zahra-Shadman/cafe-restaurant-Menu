@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-// Define the types for the product and API response
 export interface IcardProduct {
+  map(arg0: (product: IcardProduct) => React.JSX.Element): React.ReactNode;
   _id: string;
   name: string;
   price: number;
@@ -11,7 +11,6 @@ export interface IcardProduct {
   description: string;
   thumbnail: string;
   images: string[];
-  // Add any other necessary properties here
 }
 
 export interface IcardApiRes {
@@ -24,7 +23,7 @@ export interface IcardApiRes {
 
 interface ProductFetcherProps {
   subcategoryId: string;
-  categoryId: string; // Add categoryId prop
+  categoryId: string;
   limit?: number;
   onFetchSuccess: (products: IcardProduct[], totalPages: number) => void;
   onFetchError: (error: string) => void;
@@ -32,7 +31,7 @@ interface ProductFetcherProps {
 
 const ProductFetcher: React.FC<ProductFetcherProps> = ({
   subcategoryId,
-  categoryId, // Receive categoryId as a prop
+  categoryId,
   limit = 9,
   onFetchSuccess,
   onFetchError,
@@ -58,13 +57,12 @@ const ProductFetcher: React.FC<ProductFetcherProps> = ({
 
   useEffect(() => {
     fetchProducts(currentPage);
-  }, [currentPage, subcategoryId, categoryId]); // Add subcategoryId and categoryId to dependencies
-
+  }, [currentPage, subcategoryId, categoryId]); 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  return null; // This component does not render anything itself
+  return null; 
 };
 
 export default ProductFetcher;

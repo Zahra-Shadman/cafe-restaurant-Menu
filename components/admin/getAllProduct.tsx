@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import { IoIosSearch } from "react-icons/io";
-import { MdOutlineDeleteOutline } from "react-icons/md";
-import { BiSolidEdit } from "react-icons/bi";
 import { MdNavigateNext } from "react-icons/md";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { IProduct } from "@/types/category";
+import AddItemsModel from "./management/addNewItemModal";
+import { IApiRes } from "@/libs/api";
+import { DeleteModalValidation } from "./management/deleteModalValidation";
 
 export const GetProductsTable: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -17,6 +17,8 @@ export const GetProductsTable: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 9;
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [productIdToDelete, setProductIdToDelete] = useState<string | null>(null);
 
   const fetchProducts = async (page: number) => {
     setLoading(true);
@@ -32,6 +34,20 @@ export const GetProductsTable: React.FC = () => {
       setError("Failed to fetch products");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const openDeleteModal = (id: string) => {
+    setProductIdToDelete(id);
+    setIsModalOpen(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/products/${id}`);
+      fetchProducts(currentPage);
+    } catch (err) {
+      setError("Failed to delete product");
     }
   };
 
@@ -51,64 +67,68 @@ export const GetProductsTable: React.FC = () => {
     <div>
       <div className="relative px-32 ml-64 ">
         <table className="min-w-full text-center rounded-lg ">
-          <thead className="  sticky top-0 z-10 bg-green-900 text-gray-200"></thead>
-          <thead>
+          <thead className="top-0 z-10 text-gray-900">
             <tr>
               <th>
-                <div className="relative  flex items-center justify-between rounded-md">
+                <div className="relative flex items-center justify-between rounded-md">
                   <IoIosSearch className="absolute left-2 block h-5 w-5 text-gray-400" />
                   <input
                     type="text"
                     name="search"
-                    className=" font-thin py-2 cursor-text rounded-md border border-gray-100 bg-gray-100 px-8 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    className="font-thin py-2 cursor-text rounded-md border border-gray-100 bg-gray-100 px-8 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                     placeholder="Search by name, type ...."
                   />
                 </div>
               </th>
-              <th className="  p-2"></th>
-              <th className=" p-2"></th>
-              <th className=" p-2"></th>
-              <th className=" p-2 font-thin "></th>
-              <th className=" p-2 ">
+              <th className="p-2"></th>
+              <th className="p-2"></th>
+              <th className="p-2 w-[168px] "></th>
+              <th className="font-thin w-full">
+                <AddItemsModel
+                  onProductAdded={function (): void {
+                    throw new Error("Function not implemented.");
+                  }}
+                />
+              </th>
+              <th className="p-2 ">
                 <div className="flex flex-col">
                   <input
                     type="date"
                     id="date"
-                    className=" font-thin block cursor-pointer rounded-md border border-gray-100 bg-gray-100 p-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    className="font-thin block cursor-pointer rounded-md border border-gray-100 bg-gray-100 p-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                   />
                 </div>
               </th>
-              <th className=" p-2">
-                <select className=" block font-thin w-[168px]  rounded-md border border-gray-100 bg-gray-100 p-1 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                  <option className="w-full">فیلتر بر اساس موجودی</option>
+              <th className="p-2">
+                <select className="block font-thin w-[168px] rounded-md border border-gray-100 bg-gray-100 p-1 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                  <option
+                  className="w-full">فیلتر بر اساس موجودی</option>
                   <option>فیلتر براساس قیمت</option>
                 </select>
               </th>
             </tr>
           </thead>
-          <thead className=" sticky top-0 z-10 bg-green-900 text-gray-200">
+          <thead className="top-0 z-10 bg-green-900 text-gray-200 font-bold">
             <tr>
-              <th className="border w-[200px]  font-thin  border-gray-200 p-2 ">
+              <th className="border w-[200px] border-gray-200 p-2 ">
                 تصویر محصول
               </th>
-              <th className="border  font-thin w-[150px] border-gray-200 p-2">
+              <th className="border w-[150px] border-gray-200 p-2">
                 نام محصول
               </th>
-              <th className="border  font-thin w-[250px] border-gray-200 p-2">
+              <th className="border w-[250px] border-gray-200 p-2">
                 قیمت محصول
               </th>
-              <th className="border  font-thin w-[150px] border-gray-200 p-2">
+              <th className="border w-[150px] border-gray-200 p-2">
                 موجودی محصول
               </th>
-              <th className="border  font-thin w-[150px]  border-gray-200 p-2 ">
+              <th className="border w-[150px] border-gray-200 p-2 ">
                 برند محصول
               </th>
-              <th className="border  font-thin w-[150px] border-gray-200 p-2 ">
-                شناسه محصول
+              <th className="border w-[150px] border-gray-200 p-2 ">
+                توضیحات محصول
               </th>
-              <th className="border  font-thin w-[150px] border-gray-200 p-2">
-                اقدامات
-              </th>
+              <th className="border w-[150px] border-gray-200 p-2">اقدامات</th>
             </tr>
           </thead>
           <tbody>
@@ -122,31 +142,38 @@ export const GetProductsTable: React.FC = () => {
                         alt={product.name}
                         width={170}
                         height={170}
-                        className="  rounded-md w-32 h-24"
+                        className="rounded-md w-32 h-24"
                       />
                     )}
                   </div>
                 </td>
                 <td className="border border-gray-300 p-2">{product.name}</td>
-                <td className="border border-gray-300   items-center justify-center">
+                <td className="border border-gray-300 items-center justify-center">
                   {product.price}
                   <button className="ml-2 text-blue-500"></button>
                 </td>
-                <td className="border border-gray-300 p-2  items-center justify-center">
+                <td className="border border-gray-300 p-2 items-center justify-center">
                   {product.quantity}
                   <button className="ml-2 text-blue-700"></button>
                 </td>
                 <td className="border border-gray-300 p-2">{product.brand}</td>
-                <td className="border border-gray-300 p-2 ">{product._id}</td>
+                <td className="border border-gray-300 p-2 ">
+                  {product.description}
+                </td>
 
-                <td className="border  border-gray-300 p-2">
-                  <button>
-                    {" "}
-                    <BiSolidEdit className="w-4 h-5 mr-4 " />
+                <td className="border grid border-gray-300 p-2">
+                  <button
+                    type="button"
+                    className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                  >
+                    جزییات محصول
                   </button>
-
-                  <button className="text-red-500">
-                    <MdOutlineDeleteOutline className="w-6 h-5" />
+                  <button
+                    type="button"
+                    onClick={() => openDeleteModal(product._id)}
+                    className="focus:outline-none text-white bg-blue-900 hover:bg-blue-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                  >
+                    حذف
                   </button>
                 </td>
               </tr>
@@ -157,7 +184,7 @@ export const GetProductsTable: React.FC = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="p-2 bg-green-500 text-white rounded disabled:opacity-50"
+            className="p-2 bg-green-800 text-white rounded disabled:opacity-50"
           >
             <IoChevronBackSharp />
           </button>
@@ -169,12 +196,24 @@ export const GetProductsTable: React.FC = () => {
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
-            className="p-2 bg-green-500 text-white rounded disabled:opacity-50"
+            className="p-2 bg-green-800 text-white rounded disabled:opacity-50"
           >
             <MdNavigateNext />
           </button>
         </div>
       </div>
+      {isModalOpen && (
+        <DeleteModalValidation
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={() => {
+            if (productIdToDelete) {
+              handleDelete(productIdToDelete);
+              setProductIdToDelete(null);
+              setIsModalOpen(false);
+            }
+          }}
+        />
+      )}
     </div>
   );
 };

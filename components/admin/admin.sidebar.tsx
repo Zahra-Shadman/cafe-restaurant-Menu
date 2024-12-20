@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CiShoppingBasket } from "react-icons/ci";
 import { LuLayoutList } from "react-icons/lu";
+import { MdCurrencyExchange } from "react-icons/md";
 
 export default function AdminSidebar() {
   return (
@@ -10,8 +11,8 @@ export default function AdminSidebar() {
           <nav className="flex flex-col items-center flex-1 space-y-8 ">
             <Link
               href="/admin/dashboard"
-              className="p-1.5 inline-block text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-100"
-            >
+              className="p-1.5 inline-block text-blue-500 transition-colors duration-200 bg-blue-100 rounded-lg dark:text-blue-100 dark:bg-gray-800"
+>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -30,7 +31,7 @@ export default function AdminSidebar() {
 
             <Link
               href="/admin/members"
-              className="p-1.5 inline-block text-blue-500 transition-colors duration-200 bg-blue-100 rounded-lg dark:text-blue-100 dark:bg-gray-800"
+               className="p-1.5 inline-block text-gray-500 focus:outline-nones transition-colors duration-200 rounded-lg dark:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-100"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +151,7 @@ export default function AdminSidebar() {
           </div>
         </div>
 
-        <div className="h-screen px-4 py-8 overflow-y-auto bg-white border-l border-r w-full dark:bg-green-950 dark:border-gray-400">
+        <div className="h-screen px-4 py-8 overflow-y-auto bg-gray-1 border-l border-r w-full dark:bg-green-950 dark:border-gray-400">
           <div className="relative">
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
@@ -212,7 +213,17 @@ export default function AdminSidebar() {
               >
                 <LuLayoutList />
                 <span className="mx-2 text-sm font-medium">
-                  مدیریت محصولات{" "}
+                  لیست  محصولات
+                </span>
+              </Link>
+              <Link
+                className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+                href="/admin/management"
+              >
+               <MdCurrencyExchange />
+
+                <span className="mx-2 text-sm font-medium">
+                 مدیریت محصولات
                 </span>
               </Link>
               <Link
