@@ -21,6 +21,7 @@ export interface IProduct {
 }
 
 export interface ISubcategory {
+    [x: string]: Key | null | undefined;
     _id: string;
     category: string;
     name: string;
