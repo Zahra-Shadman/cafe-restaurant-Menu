@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import CategorySubcategorySelector from "@/components/cat-sub-getter/subcategoty.getter";
+import CategorySubcategorySelector from "@/components/CATEGORY-SUBCATEGORY/subcategoty.getter";
 
 import { z } from "zod";
 import { productSchema } from "@/lib/validation";

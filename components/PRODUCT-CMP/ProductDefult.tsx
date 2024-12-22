@@ -72,7 +72,7 @@ const GetDefultProduct: React.FC = () => {
                   <h3 className="text-lg text-green-950 mb-2">
                     {product.name}
                   </h3>
-                  <p className="text-lg font-semibold text-gray-700 mb-4">
+                  <p className="text-lg font-semibold text-green-700 mb-4">
                     {product.price} تومان
                   </p>
                   <p className="text-gray-600 text-center p-1 text-sm mb-4 overflow-hidden whitespace-nowrap text-ellipsis">

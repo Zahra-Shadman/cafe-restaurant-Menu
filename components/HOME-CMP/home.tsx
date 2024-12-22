@@ -2,7 +2,7 @@
 
 import React from "react";
 import Slideshow from "./slider-home";
-import HomeFooter from "../header.footer/footer";
+import HomeFooter from "../HEADER-FOOTER/footer";
 import Link from "next/link";
 
 

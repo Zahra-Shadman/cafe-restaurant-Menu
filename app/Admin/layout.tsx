@@ -1,4 +1,4 @@
-import AdminSidebar from "@/components/admin/admin.sidebar";
+import AdminSidebar from "@/components/admin/DASHBOARD/admin.sidebar";
 import TokenExpirationChecker from "@/components/admin/TokenExpirationChecker";
 
 export default function DashboardLayout({

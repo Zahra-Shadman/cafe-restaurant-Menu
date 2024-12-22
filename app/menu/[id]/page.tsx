@@ -9,8 +9,8 @@ import { IoBagAddOutline, IoInformationOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa6";
 import { ImageUrl } from "@/api/urls";
 import { ProductDetails, ProductResponse } from "@/types/product";
-import Reviews from "@/components/product-component/Reviews";
-import { ProductDetailsSkeleton } from "@/components/product-component/skeletonForProductDetailPage";
+import Reviews from "@/components/PRODUCT-CMP/Reviews";
+import { ProductDetailsSkeleton } from "@/components/SKETELONS/skeletonForProductDetailPage";
 
 const ProductDetailsPage: React.FC = () => {
   const params = useParams();

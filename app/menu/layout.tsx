@@ -1,4 +1,4 @@
-import NavForProduct from "@/components/product-component/product.page.navbar";
+import NavForProduct from "@/components/PRODUCT-CMP/product.page.navbar";
 
 export default function MenuLayout({
   children,

@@ -5,15 +5,15 @@ import { ImageUrl, subcategoriesUrl } from "@/api/urls";
 import { ISubcategory } from "@/types/category";
 import ProductFetcher, {
   IcardProduct,
-} from "@/components/menu-pages-component/ProductFetcher";
+} from "@/components/MENU-CMP/ProductFetcher";
 import { FaRegHeart } from "react-icons/fa";
 import { IoBagAddOutline } from "react-icons/io5";
 import { RiInformationLine } from "react-icons/ri";
-import GetDefultProduct from "../../components/product-component/ProductDefult";
+import GetDefultProduct from "../../components/PRODUCT-CMP/ProductDefult";
 import Link from "next/link";
 import axios from "axios";
-import CategorySubcategorySelector from "@/components/cat-sub-getter/getterForMenu";
-import Skeleton from "@/components/menu-pages-component/Loading";
+import CategorySubcategorySelector from "@/components/CATEGORY-SUBCATEGORY/getterForMenu";
+import Skeleton from "@/components/SKETELONS/skeletonForMenu";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<IcardProduct[]>([]);
@@ -25,6 +25,7 @@ const ProductsPage = () => {
     null
   );
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -32,6 +33,7 @@ const ProductsPage = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
   const handleCategoryChange = async (categoryId: string | null) => {
     setSelectedCategory(categoryId);
     setSelectedSubcategory(null);
@@ -51,7 +53,7 @@ const ProductsPage = () => {
 
   const handleSubcategoryChange = (subcategoryId: string | null) => {
     setSelectedSubcategory(subcategoryId);
-    setDefaultProductVisible(false);
+    setDefaultProductVisible(subcategoryId === null);
   };
 
   const handleFetchSuccess = (fetchedProducts: IcardProduct[]) => {
@@ -61,12 +63,10 @@ const ProductsPage = () => {
   const handleFetchError = (error: string) => {
     setError(error);
   };
+
   if (loading) {
     return <Skeleton />;
   }
-  const handleAddToCart = (product: IcardProduct): void => {
-    throw new Error("eer");
-  };
 
   return (
     <div className="md:py-8 mx-auto max-w-full px-4">
@@ -112,8 +112,8 @@ const ProductsPage = () => {
                   )}
                 </div>
                 <h3 className="text-lg text-green-950 mb-2">{product.name}</h3>
-                <p className="text-lg font-semibold text-gray-700 mb-4">
-                  {product.price} تومان
+                <p className="text-lg font-semibold text-green-800  mb-4">
+                  {product.price} تومان   
                 </p>
                 <p className="text-gray-600 text-center p-1 text-sm mb-4 overflow-hidden whitespace-nowrap text-ellipsis">
                   {product.description.length > 30
@@ -125,10 +125,7 @@ const ProductsPage = () => {
                   <RiInformationLine className="w-5 h-6 " />
                 </span>
                 <div className="flex justify-center items-center">
-                  <button
-                    className="bg-greenbtn text-gray-200 w-46 flex items-center gap-2 mx-auto text-sm p-2 px-3 rounded-md hover:bg-green-950 transition duration-200"
-                    onClick={() => handleAddToCart(product)}
-                  >
+                  <button className="bg-greenbtn text-gray-200 w-46 flex items-center gap-2 mx-auto text-sm p-2 px-3 rounded-md hover:bg-green-950 transition duration-200">
                     <IoBagAddOutline className="w-5 h-5 " /> افزودن به سبد خرید
                   </button>
                 </div>

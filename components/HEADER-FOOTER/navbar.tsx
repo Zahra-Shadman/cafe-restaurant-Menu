@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { HiMenu, HiX } from "react-icons/hi";
 import Link from "next/link";
-import { SearshInput } from "../home-components/search-input";
+import { SearshInput } from "../HOME-CMP/search-input";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 export function Navbar() {
