@@ -1,4 +1,6 @@
-import { IApiRes, IProduct } from '@/types/product';
+
+import { IApiRes } from '@/types/api';
+import { IProduct } from '@/types/category';
 import { useEffect, useState } from 'react';
 import { LiaEdit } from 'react-icons/lia';
 import { MdDelete } from 'react-icons/md';
@@ -24,12 +26,12 @@ const ProductsTable = () => {
   }, [currentPage]);
 
   const handleEditClick = (product: IProduct) => {
-    // Handle edit logic here
+
     console.log('Edit product:', product);
   };
 
   const handleDeleteClick = (productId: string) => {
-    // Handle delete logic here
+
     console.log('Delete product with ID:', productId);
   };
 

@@ -1,5 +1,6 @@
-import { Navbar } from "@/components/navbar";
-import ImageMainHome from "@/components/home";
+import { Navbar } from "@/components/HEADER-FOOTER/navbar";
+
+import ImageMainHome from "@/components/HOME-CMP/home";
 
 export default function Home() {
   return (

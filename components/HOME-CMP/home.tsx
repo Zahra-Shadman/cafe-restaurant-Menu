@@ -2,7 +2,9 @@
 
 import React from "react";
 import Slideshow from "./slider-home";
-import HomeFooter from "./footer";
+import HomeFooter from "../HEADER-FOOTER/footer";
+import Link from "next/link";
+
 
 const ImageMainHome: React.FC = () => {
     return (
@@ -12,7 +14,7 @@ const ImageMainHome: React.FC = () => {
       <h1 className="text-center text-4xl font-bold text-teal-700">THEREFORE I AM</h1>
       <p className="text-center text-teal-700 mt-4">You can always expect new taste and food when you explore Jo's menu</p>
       <div className="text-center mt-4">
-          <button className="bg-teal-700 text-white py-2 px-4 rounded">سفارش آنلاین</button>
+         <Link href={"/menu"}> <button className="bg-teal-700 text-white py-2 px-4 rounded">سفارش آنلاین</button></Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
           <div className="md:col-span-1">
@@ -30,7 +32,7 @@ text-left px-3 py-2 font-mono text-lg">In the heart of the bustling city, a cozy
 
               <img src="slide4.jpg" alt="Coffee being brewed into a glass container" className="w-full h-auto rounded"/>
           </div>
-        
+       
       </div>
       <HomeFooter />
   </div>

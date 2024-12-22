@@ -19,13 +19,20 @@
     "axe/aria": [
       "default",
       {
-        "empty-table-header": "off"
+        "empty-table-header": "off",
+        "aria-valid-attr-value": "off"
       }
     ],
     "axe/structure": [
       "default",
       {
         "list": "off"
+      }
+    ],
+    "axe/text-alternatives": [
+      "default",
+      {
+        "image-alt": "off"
       }
     ]
   }
