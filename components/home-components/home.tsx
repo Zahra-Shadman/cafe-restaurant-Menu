@@ -4,7 +4,7 @@ import React from "react";
 import Slideshow from "./slider-home";
 import HomeFooter from "../header.footer/footer";
 import Link from "next/link";
-import ImageCards from "./image-component";
+
 
 const ImageMainHome: React.FC = () => {
     return (
@@ -32,7 +32,7 @@ text-left px-3 py-2 font-mono text-lg">In the heart of the bustling city, a cozy
 
               <img src="slide4.jpg" alt="Coffee being brewed into a glass container" className="w-full h-auto rounded"/>
           </div>
-          <ImageCards />
+       
       </div>
       <HomeFooter />
   </div>

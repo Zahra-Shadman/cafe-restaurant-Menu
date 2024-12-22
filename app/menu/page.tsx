@@ -1,58 +1,58 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
-import {
-  categoriesUrl,
-  caticons,
-  ImageUrl,
-  subcategoriesUrl,
-  subcategoriesUrltwo,
-} from "@/api/urls";
-import { ICategory, ISubcategory } from "@/types/category";
+import { ImageUrl, subcategoriesUrl } from "@/api/urls";
+import { ISubcategory } from "@/types/category";
 import ProductFetcher, {
   IcardProduct,
 } from "@/components/menu-pages-component/ProductFetcher";
 import { FaRegHeart } from "react-icons/fa";
 import { IoBagAddOutline } from "react-icons/io5";
 import { RiInformationLine } from "react-icons/ri";
-import GetDefultProduct from "./ProductDefult";
+import GetDefultProduct from "../../components/product-component/ProductDefult";
 import Link from "next/link";
+import axios from "axios";
+import CategorySubcategorySelector from "@/components/cat-sub-getter/getterForMenu";
+import Skeleton from "@/components/menu-pages-component/Loading";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<IcardProduct[]>([]);
-  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [defaultProductVisible, setDefaultProductVisible] = useState(true);
   const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [defaultProductVisible, setDefaultProductVisible] = useState(true); // State for default product visibility
-
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
+    null
+  );
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const categoriesResponse = await axios.get(`${categoriesUrl}`);
-        const [subcategoriesResponseOne, subcategoriesResponseTwo] =
-          await Promise.all([
-            axios.get(`${subcategoriesUrl}`),
-            axios.get(`${subcategoriesUrltwo}`),
-          ]);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
 
-        setCategories(categoriesResponse.data.data.categories);
-
-        const mixedSubcategories = [
-          ...subcategoriesResponseOne.data.data.subcategories,
-          ...subcategoriesResponseTwo.data.data.subcategories,
-        ];
-
-        setSubcategories(mixedSubcategories);
-      } catch (err) {
-        console.error("Failed to fetch categories or subcategories", err);
-      }
-    };
-
-    fetchData();
+    return () => clearTimeout(timer);
   }, []);
+  const handleCategoryChange = async (categoryId: string | null) => {
+    setSelectedCategory(categoryId);
+    setSelectedSubcategory(null);
+    setDefaultProductVisible(true);
+
+    if (categoryId) {
+      try {
+        const response = await axios.get(subcategoriesUrl(categoryId));
+        setSubcategories(response.data.data.subcategories);
+      } catch (error) {
+        console.error("Error fetching subcategories:", error);
+      }
+    } else {
+      setSubcategories([]);
+    }
+  };
+
+  const handleSubcategoryChange = (subcategoryId: string | null) => {
+    setSelectedSubcategory(subcategoryId);
+    setDefaultProductVisible(false);
+  };
 
   const handleFetchSuccess = (fetchedProducts: IcardProduct[]) => {
     setProducts(fetchedProducts);
@@ -61,22 +61,11 @@ const ProductsPage = () => {
   const handleFetchError = (error: string) => {
     setError(error);
   };
-
+  if (loading) {
+    return <Skeleton />;
+  }
   const handleAddToCart = (product: IcardProduct): void => {
-    throw new Error("Function not implemented.");
-  };
-
-  const handleCategorySelect = (categoryId: string) => {
-    setSelectedCategory(categoryId);
-    setSelectedSubcategory(null);
-    setProducts([]);
-    setDefaultProductVisible(true); // Show default product when a category is selected
-  };
-
-  const handleSubcategorySelect = (subcategoryId: string) => {
-    setSelectedSubcategory(subcategoryId);
-    setProducts([]);
-    setDefaultProductVisible(false); // Hide default product when a subcategory is selected
+    throw new Error("eer");
   };
 
   return (
@@ -87,48 +76,17 @@ const ProductsPage = () => {
           _____________________________________________________________________________________________________________________
         </span>
       </h1>
-      <div className="mb-4">
-        <div className="flex flex-wrap justify-center gap-4">
-          {categories.map((category) => (
-            <button
-              key={category._id}
-              className="text-gray-800 p-4 font-semibold rounded-full hover:text-green-600"
-              onClick={() => handleCategorySelect(category._id)}
-            >
-              <div className="flex flex-col items-center">
-                <img
-                  src={`${caticons}${category.icon}`}
-                  alt={category.name}
-                  className="w-12 mb-1"
-                />
-                <span className="text-sm">{category.name}</span>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-      {selectedCategory && (
-        <div className="mb-4">
-          <div className="flex flex-wrap justify-center gap-4">
-            {subcategories
-              .filter((sub) => sub.category === selectedCategory)
-              .map((subcategory) => (
-                <button
-                  key={subcategory._id}
-                  className="text-gray-800 px-4 py-2 rounded-full hover:text-green-600"
-                  onClick={() => handleSubcategorySelect(subcategory._id)}
-                >
-                  {subcategory.name}
-                </button>
-              ))}
-          </div>
-        </div>
-      )}
+
+      <CategorySubcategorySelector
+        onCategoryChange={handleCategoryChange}
+        onSubcategoryChange={handleSubcategoryChange}
+      />
 
       {defaultProductVisible ? (
         <GetDefultProduct />
       ) : (
-        selectedSubcategory && selectedCategory && (
+        selectedSubcategory &&
+        selectedCategory && (
           <ProductFetcher
             subcategoryId={selectedSubcategory}
             categoryId={selectedCategory}
@@ -137,6 +95,7 @@ const ProductsPage = () => {
           />
         )
       )}
+
       <div>
         {error && <p className="text-red-500">{error}</p>}
         <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
