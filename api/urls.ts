@@ -10,10 +10,10 @@ export const ProductUrl =
   "http://localhost:8000/api/products?page=1&limit=4&fields=-rating,-createdAt,-updatedAt,-__v&sort=price&quantity[gte]=8";
 
 export const categoriesUrl = "http://localhost:8000/api/categories";
-
-export const subcategoriesUrl = "http://localhost:8000/api/subcategories?page=1";
-
-export const subcategoriesUrltwo = "http://localhost:8000/api/subcategories?page=2";
-
+export const subcategoriesUrl = (id: string) =>
+  `http://localhost:8000/api/subcategories?category=${id}`;
 
 export const NewProductUrl = "http://localhost:8000/api/products";
+
+export const ProductUrldetails = (productId: string) =>
+  `http://localhost:8000/api/products/${productId}`;
