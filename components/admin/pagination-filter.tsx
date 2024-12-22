@@ -1,5 +1,5 @@
 
-import { IApiRes } from '@/libs/api';
+import { IApiRes } from '@/types/api';
 import { IProduct } from '@/types/category';
 import { useEffect, useState } from 'react';
 import { LiaEdit } from 'react-icons/lia';

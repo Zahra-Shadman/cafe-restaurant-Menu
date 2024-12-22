@@ -3,8 +3,10 @@ import { FcGoogle } from "react-icons/fc";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import { PiEyeLight, PiUser } from "react-icons/pi";
 import { useState, useEffect } from "react";
-import { login } from "@/libs/Login";
+import { login } from "@/api/Login";
 import { useRouter } from "next/navigation";
+import { Flip, ToastContainer } from "react-toastify";
+import { GoingToDashoeard, loginSuccess } from "../TOAST/toasts";
 
 export const AdminLoginPage = () => {
   const [username, setUsername] = useState("");
@@ -18,30 +20,33 @@ export const AdminLoginPage = () => {
 
     try {
       const { token } = await login(username, password);
-      sessionStorage.setItem("accessToken", token.accessToken);
-      sessionStorage.setItem("refreshToken", token.refreshToken);
+      localStorage.setItem("accessToken", token.accessToken);
+      localStorage.setItem("refreshToken", token.refreshToken);
 
       console.log(token);
-      window.location.href = "/admin/dashboard";
+      loginSuccess();
+      GoingToDashoeard();
+      setTimeout(() => {
+        window.location.href = "/admin/dashboard";
+      }, 3000);
     } catch (err) {
       setError("server error");
     }
   };
 
   useEffect(() => {
-    const accessToken = sessionStorage.getItem("accessToken");
+    const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       const tokenPayload = JSON.parse(atob(accessToken.split(".")[1]));
-      const isExpired = Date.now() >= tokenPayload.exp * 4000;
+      const isExpired = Date.now() >= tokenPayload.exp * 1000; 
 
       if (isExpired) {
         window.location.href = "/admin";
-        sessionStorage.removeItem("accessToken");
-        sessionStorage.removeItem("refreshToken");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
       }
     }
   }, [router]);
-
   return (
     <div
       className="flex justify-center items-center font-[sans-serif] h-full min-h-screen p-4 relative"
@@ -106,6 +111,19 @@ export const AdminLoginPage = () => {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Flip}
+      />
     </div>
   );
 };

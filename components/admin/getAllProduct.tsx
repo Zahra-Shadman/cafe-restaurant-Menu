@@ -6,9 +6,9 @@ import { IoIosSearch } from "react-icons/io";
 import { MdNavigateNext } from "react-icons/md";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { IProduct } from "@/types/category";
-import AddItemsModel from "./management/addNewItemModal";
-import { IApiRes } from "@/libs/api";
-import { DeleteModalValidation } from "./management/deleteModalValidation";
+import AddItemsModel from "./CRAD/addNewItemModal";
+import { IApiRes } from "@/types/api";
+import { DeleteModalValidation } from "./CRAD/deleteModalValidation";
 
 export const GetProductsTable: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -63,6 +63,10 @@ export const GetProductsTable: React.FC = () => {
     return <div>{error}</div>;
   }
 
+  function handleProductAdded(): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div>
       <div className="relative px-32 ml-64 ">
@@ -84,11 +88,7 @@ export const GetProductsTable: React.FC = () => {
               <th className="p-2"></th>
               <th className="p-2 w-[168px] "></th>
               <th className="font-thin w-full">
-                <AddItemsModel
-                  onProductAdded={function (): void {
-                    throw new Error("Function not implemented.");
-                  }}
-                />
+              <AddItemsModel onProductAdded={handleProductAdded} />
               </th>
               <th className="p-2 ">
                 <div className="flex flex-col">
