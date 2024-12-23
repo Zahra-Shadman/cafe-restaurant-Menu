@@ -110,8 +110,7 @@ const GetDefultProduct: React.FC = () => {
           </span>
           <button
             onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
             className="p-2 bg-green-800 text-white rounded disabled:opacity-50"
           >
