@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AiFillHome } from "react-icons/ai";
 import { FaChevronRight } from "react-icons/fa";
+import CartIcon from "../card.icon";
 
 export default function NavForProduct() {
   return (
@@ -35,6 +36,7 @@ export default function NavForProduct() {
             <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2"></span>
           </div>
         </li>
+        <CartIcon />
       </ol>
     </nav>
   );

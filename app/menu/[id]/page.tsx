@@ -11,15 +11,33 @@ import { ImageUrl } from "@/api/urls";
 import { ProductDetails, ProductResponse } from "@/types/product";
 import Reviews from "@/components/PRODUCT-CMP/Reviews";
 import { ProductDetailsSkeleton } from "@/components/SKETELONS/skeletonForProductDetailPage";
+import { useAppDispatch } from "@/redux/store";
+import { addToCart } from "@/redux/slices/cartSlice";
 
 const ProductDetailsPage: React.FC = () => {
   const params = useParams();
   const productId = params?.id as string;
-
+  const dispatch = useAppDispatch();
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleAddToCart = () => {
+    if (product) {
+      const cartProduct = {
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        image:
+          product.images && product.images.length > 0
+            ? `${ImageUrl}${product.images[0]}`
+            : "",
+      };
+
+      dispatch(addToCart(cartProduct));
+    }
+  };
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -57,17 +75,20 @@ const ProductDetailsPage: React.FC = () => {
                   src={`${ImageUrl}${selectedImage}`}
                   alt={product.name}
                   fill
+                  className="object-cover"
                 />
               )}
             </div>
           </div>
         </div>
+
         <div className="space-y-6 text-right">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
               {product.name}
             </h2>
             <hr className="border-green-700 border-t-2 mb-4" />
+
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-2xl font-bold text-green-600">
                 {product.price.toLocaleString()} تومان
@@ -80,6 +101,7 @@ const ProductDetailsPage: React.FC = () => {
               </div>
             </div>
           </div>
+
           <div className="space-y-4">
             <h3 className="text-xl font-semibold text-gray-800">
               درباره محصول
@@ -87,6 +109,7 @@ const ProductDetailsPage: React.FC = () => {
             <p className="text-gray-600 text-sm md:text-base">
               {product.description}
             </p>
+
             <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
               <p className="font-semibold">
                 زیر مجموعه: {product.subcategory.name}
@@ -98,8 +121,10 @@ const ProductDetailsPage: React.FC = () => {
               <p className="font-semibold">موجودی: {product.quantity} عدد</p>
             </div>
           </div>
+
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <button
+              onClick={handleAddToCart}
               disabled={product.quantity === 0}
               className={`w-full sm:w-auto flex items-center justify-center gap-2 p-3 rounded-md transition duration-200 ${
                 product.quantity > 0
@@ -110,6 +135,7 @@ const ProductDetailsPage: React.FC = () => {
               <IoBagAddOutline className="w-5 h-5" />
               {product.quantity > 0 ? "افزودن به سبد خرید" : "ناموجود"}
             </button>
+
             <div className="flex gap-3">
               <button className="p-3 bg-gray-100 rounded-md hover:bg-gray-200 transition">
                 <FaRegHeart className="w-6 h-6 text-gray-600" />
@@ -121,6 +147,7 @@ const ProductDetailsPage: React.FC = () => {
           </div>
         </div>
       </div>
+
       <Reviews />
     </div>
   );

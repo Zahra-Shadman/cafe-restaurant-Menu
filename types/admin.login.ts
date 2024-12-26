@@ -5,6 +5,7 @@ export interface IToken {
 }
 
 export interface IAdminLogReq {
+  [x: string]: any;
   status: string;
   token: IToken;
 }

@@ -7,3 +7,4 @@ export const GoingToDashoeard = () => toast("در حال انتقال به صف�
 export const TokenEspieard = () => toast("توکن شما منقضی شده است ! لطفا مجدد وارد شوید");
 export const EditSuccess = () => toast("!ویرایش محصول با موفقیت انجام شد");
 export const LoginError = () => toast("خطا در ورود! لطفا مجدد اقدام کنید ");
+export const SignupSuccessful  =() => toast.success("ثبت نام با موفقیت انجام شد ! خوش آمدید");
