@@ -12,6 +12,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { RiInformationLine } from "react-icons/ri";
 import { useAppDispatch } from "@/redux/store";
 import { addToCart } from "@/redux/slices/cartSlice";
+import { useToast } from "@/hooks/use-toast";
 
 const GetDefultProduct: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -22,6 +23,7 @@ const GetDefultProduct: React.FC = () => {
   const limit = 8;
 
   const dispatch = useAppDispatch();
+  const { toast } = useToast();
 
   const fetchProducts = async (page: number) => {
     setLoading(true);
@@ -69,6 +71,12 @@ const GetDefultProduct: React.FC = () => {
     };
 
     dispatch(addToCart(cartProduct));
+
+    toast({
+      title: "محصول به سبد خرید اضافه شد",
+      description: `${product.name} با موفقیت به سبد خرید اضافه شد.`,
+      variant: "default",
+    });
   };
 
   return (

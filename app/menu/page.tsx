@@ -16,6 +16,8 @@ import CategorySubcategorySelector from "@/components/CATEGORY-SUBCATEGORY/gette
 import Skeleton from "@/components/SKETELONS/skeletonForMenu";
 import { useAppDispatch } from "@/redux/store";
 import { addToCart } from "@/redux/slices/cartSlice";
+import { toast } from "@/hooks/use-toast";
+
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<IcardProduct[]>([]);
@@ -46,6 +48,11 @@ const ProductsPage = () => {
     };
 
     dispatch(addToCart(cartProduct));
+    toast({
+      title: "محصول به سبد خرید اضافه شد",
+      description: `${product.name} با موفقیت به سبد خرید اضافه شد.`,
+      variant: "default", 
+    });
   };
 
   useEffect(() => {
@@ -163,7 +170,7 @@ const ProductsPage = () => {
                   onClick={(e) => handleAddToCart(e, product)}
                   className="bg-greenbtn text-gray-200 w-46 flex items-center gap-2 mx-auto text-sm p-2 px-3 rounded-md hover:bg-green-950 transition duration-200"
                 >
-                  <IoBagAddOutline className="w-5 h-5 " /> ADD
+                  <IoBagAddOutline className="w-5 h-5 " /> افزودن به سبد خرید
                 </button>
               </div>
             </div>
