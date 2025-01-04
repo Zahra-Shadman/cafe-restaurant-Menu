@@ -19,3 +19,5 @@ export const ProductUrldetails = (productId: string) =>
   `http://localhost:8000/api/products/${productId}`;
 
 export const signUpUrl = "http://localhost:8000/api/auth/signup";
+
+export const loginUrl = "http://localhost:8000/api/auth/login";

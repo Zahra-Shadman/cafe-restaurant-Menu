@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { login } from "@/api/Login";
 import { useRouter } from "next/navigation";
 import { Flip, ToastContainer } from "react-toastify";
-import { GoingToDashoeard, loginSuccess } from "../TOAST/toasts";
+import { GoingToDashoeard, loginSuccess } from "../../lib/TOAST/toasts";
 
 export const AdminLoginPage = () => {
   const [username, setUsername] = useState("");

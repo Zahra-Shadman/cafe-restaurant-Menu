@@ -35,7 +35,6 @@ const cartSlice = createSlice({
 
       localStorage.setItem("cart", JSON.stringify(state));
     },
-
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
       state.total = state.items.reduce(

@@ -1,61 +1,145 @@
 "use client";
 
-import React, { useState } from "react";
 import Link from "next/link";
+import React, { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { loginUrl } from "@/api/urls";
+import { ToastContainer } from "react-toastify";
+import { LoginSuccessful } from "@/lib/TOAST/toasts";
+import Cookies from "js-cookie";
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ username, password });
+    setError("");
+
+    const rawFormData = {
+      username,
+      password,
+    };
+
+    try {
+      const response = await axios.post(loginUrl, rawFormData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.status === "success") {
+        Cookies.set("accessToken", response.data.token.accessToken);
+        Cookies.set("refreshToken", response.data.token.refreshToken);
+
+        localStorage.setItem(
+          "userData",
+          JSON.stringify(response.data.data.user)
+        );
+
+        LoginSuccessful();
+        router.push("/");
+      }
+    } catch (err: any) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data.message || "Login failed");
+      } else {
+        setError("Error login");
+      }
+      console.error("Login error:", err);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center">Login</h2>
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Username
-            </label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-            />
+    <section className="gradient-form min-h-screen bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center p-4">
+      <div className="container w-full max-w-4xl">
+        <div className="flex items-center justify-center text-neutral-800 dark:text-neutral-200">
+          <div className="w-full">
+            <div className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
+              <div className="g-0 lg:flex lg:flex-wrap">
+                <div className="px-4 md:px-0 lg:w-6/12">
+                  <div className="md:mx-6 md:p-8">
+                    <div className="text-center">
+                      <img
+                        className="mx-auto w-48 h-auto"
+                        src={"/Screenshot%202024-12-27%20144726.svg"}
+                        alt="logo"
+                      />
+                      <h4 className="mb-6 mt-1 pb-1 text-xl font-semibold">
+                        ! خوش آمدید
+                      </h4>
+                    </div>
+
+                    <form onSubmit={handleLogin} className="space-y-4">
+                      <div className="space-y-3">
+                        <input
+                          type="text"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
+                          required
+                          className="w-full rounded border-0 bg-transparent px-3 py-2 leading-[1.6] outline-none transition-all duration-200 ease-linear border-b-2 border-gray-300"
+                          placeholder="Username"
+                        />
+
+                        <input
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                          className="w-full rounded border-0 bg-transparent px-3 py-2 leading-[1.6] outline-none transition-all duration-200 ease-linear border-b-2 border-gray-300"
+                          placeholder="Password"
+                        />
+                      </div>
+
+                      <div className="text-center mt-4">
+                        <button
+                          type="submit"
+                          className=" w-full rounded px-6 py-2.5 text-xs font-medium uppercase text-white shadow-dark-3 transition duration-150 ease-in-out"
+                          style={{
+                            background:
+                              "linear-gradient(to right , #DFC196,#60401f)",
+                          }}
+                        >
+                          Log in
+                        </button>
+
+                        {error && <p className="text-red-500 mt-2">{error}</p>}
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <div
+                  className="hidden lg:flex lg:w-1/2 items-center justify-center text-white"
+                  style={{
+                    background: "linear-gradient(to right , #DFC196,#c48e54)",
+                  }}
+                >
+                  <div className="flex-row px-4 py-6 md:mx-6 text-white md:p-8">
+                    <div className="flex items-center justify-between mt-36">
+                      <Link
+                        href="/signup"
+                        className="inline-block mr-2 w-36 text-center rounded border-2 hover:bg-stone-700 py-2 px-5 text-xs font-medium text-danger"
+                      >
+                        ثبت نام
+                      </Link>
+                      <p className="text-sm font-semibold text-right">
+                        کاربر گرامی در صورتی که حساب کاربری ندارید لطفا ابتدا
+                        ثبت نام کنید
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-2 mt-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500"
-          >
-            Login
-          </button>
-        </form>
-        <p className="text-center">
-          Don't have an account?
-          <Link href="/signup" className="text-blue-600 hover:underline">
-            Sign Up
-          </Link>
-        </p>
+        </div>
       </div>
-    </div>
+      <ToastContainer />
+    </section>
   );
 };
 

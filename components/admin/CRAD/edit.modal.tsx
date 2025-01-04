@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { RiErrorWarningLine } from "react-icons/ri";
-import { EditSuccess } from "@/components/TOAST/toasts";
+import { EditSuccess } from "@/lib/TOAST/toasts";
 import { ToastContainer } from "react-toastify";
 
 interface EditModalProps {
