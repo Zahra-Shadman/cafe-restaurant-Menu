@@ -1,131 +1,230 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { FaShoppingCart, FaHeart, FaBars, FaTimes } from "react-icons/fa";
 import Image from "next/image";
-import { HiMenu, HiX } from "react-icons/hi";
+import { RiUserSharedFill } from "react-icons/ri";
+import { PiListChecksFill } from "react-icons/pi";
 import Link from "next/link";
-import { SearshInput } from "../HOME-CMP/search-input";
-import { RiArrowDropDownLine } from "react-icons/ri";
+import Cookies from "js-cookie";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { MdOutlineArrowDropDown } from "react-icons/md";
+import CartIcon from "../card.icon";
 
-export function Navbar() {
+export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
+  const checkLoginStatus = () => {
+    const accessToken = Cookies.get("accessToken");
+    const userData = localStorage.getItem("userData");
+
+    if (accessToken && userData) {
+      try {
+        const user = JSON.parse(userData);
+        setIsLoggedIn(true);
+        setUsername(user.username);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        setIsLoggedIn(false);
+        setUsername("");
+      }
+    } else {
+      setIsLoggedIn(false);
+      setUsername("");
+    }
+  };
+
+  const handleLogout = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    localStorage.removeItem("userData");
+
+    setIsLoggedIn(false);
+    setUsername("");
+    setShowDropdown(false);
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-  const handleMouseLeave = () => {
-    setIsOpen(false);
-  };
-
   return (
-    <header
-      className={`h-20 px-4 py-4 mx-auto flex flex-col md:flex-row items-center justify-between relative ${
-        isOpen ? "fixed top-0 left-0 right-0 bg-white z-50" : ""
-      }`}
-    >
-      <div className="flex items-center w-full md:w-52 mb-2 md:mb-0">
-        <SearshInput />
-        <button onClick={toggleMenu} className="text-gray-800 md:hidden ml-2">
-          {isOpen ? (
-            <HiX className="w-6 h-6" />
-          ) : (
-            <HiMenu className="w-6 h-6" />
-          )}
-        </button>
-      </div>
-      <Image
-        className="lg:ml-32 flex"
-        src={"/lucent-cafe.svg"}
-        alt={"logo"}
-        width={160}
-        height={0}
-      />
+    <nav className="bg-white shadow-sm">
+      <div className="container mx-auto px-4">
+        <div className="relative flex items-center justify-between h-20">
+          <div className="absolute left-0 top-1/2 transform -translate-y-1/2 md:hidden">
+            <button
+              onClick={toggleMenu}
+              className="text-gray-600 hover:text-gray-900"
+            >
+              {isOpen ? (
+                <FaTimes className="w-6 h-6" />
+              ) : (
+                <FaBars className="w-6 h-6" />
+              )}
+            </button>
+          </div>
 
-      <section
-        className={`flex-col gap-2 md:flex-row md:flex md:items-center md:gap-3 text-gray-800 absolute md:static bg-white md:bg-transparent w-full md:w-auto transition-all duration-300 ease-in-out ${
-          isOpen ? "flex" : "hidden"
-        } md:flex`}
-      >
+          <div className="absolute flex-1 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <Image
+              src={"/Screenshot%202024-12-27%20144726.svg"}
+              alt={"logo"}
+              width={250}
+              height={50}
+              style={{ objectFit: "contain" }}
+              className="max-w-full"
+            />
+          </div>
+
+          <div className="hidden md:flex  items-center w-full justify-between">
+            <div className="flex-grow max-w-xs">
+              <input
+                type="text"
+                className="w-full rounded-md border border-[#DDE2E4] px-3 py-2 text-sm text-right"
+                placeholder=". . .محصول مورد نظر خود را جستجو کنید"
+              />
+            </div>
+
+            <div className="flex items-center">
+              <Link href="/orders">
+                <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-2 hover:bg-gray-100">
+                  <PiListChecksFill className="h-5 w-5 text-browni" />
+                </div>
+              </Link>
+
+              <Link href="/favorite">
+                <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-2 hover:bg-gray-100">
+                  <FaHeart className="h-5 w-5 text-browni" />
+                </div>
+              </Link>
+
+              <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-2 hover:bg-gray-100">
+                <CartIcon />
+              </div>
+
+              {isLoggedIn ? (
+                <div className="relative">
+                  <div
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    className="flex cursor-pointer text-browni font-bold items-center gap-x-1 rounded-md py-2 px-2 hover:bg-gray-100"
+                  >
+                    <IoPersonCircleOutline className="h-6 w-6 text-browni" />{" "}
+                    {username} <MdOutlineArrowDropDown />
+                  </div>
+
+                  {showDropdown && (
+                    <div className="absolute text-center right-0 mt-2 w-48 bg-white border rounded-md shadow-lg">
+                      <Link href="/profile">
+                        <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                          پروفایل
+                        </div>
+                      </Link>
+                      <Link href="/orders">
+                        <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                          سفارشات
+                        </div>
+                      </Link>
+                      <div
+                        onClick={handleLogout}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
+                      >
+                        خروج از حساب کاربری
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link href="/Login">
+                  <div className="flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-2 hover:bg-gray-100 ml-2">
+                    <RiUserSharedFill className="h-5 w-5 text-browni" />
+                  </div>
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+
         {isOpen && (
-          <button
-            onClick={toggleMenu}
-            className="flex justify-center text-gray-800 md:hidden flex-col-reverse"
-          >
-            <HiX className="w-6 h-6" />
-          </button>
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <input
+                type="text"
+                className="w-full rounded-md border border-[#DDE2E4] px-3 py-2 mb-4 text-sm text-right"
+                placeholder=". . .محصول مورد نظر خود را جستجو کنید"
+              />
+
+              <div className="flex justify-between items-center mb-4">
+                <div className="flex space-x-5">
+                  <PiListChecksFill className="h-5 w-5 text-browni" />
+                  <FaHeart className="h-5 w-5 text-browni" />
+                  <FaShoppingCart className="h-5 w-5 text-browni" />
+                  <RiUserSharedFill className="h-5 w-5 text-browni" />
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <Link
+                  href="/About-us"
+                  className="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md"
+                >
+                  درباره ما
+                </Link>
+                <Link
+                  href="/branches"
+                  className="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md"
+                >
+                  آدرس شعب
+                </Link>
+                <Link
+                  href="/shoping"
+                  className="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md"
+                >
+                  فروشگاه محصولات
+                </Link>
+                <Link
+                  href="/menu"
+                  className="text-gray-700 hover:bg-gray-100 block px-4 py-3 rounded-md"
+                >
+                  منو
+                </Link>
+              </div>
+            </div>
+          </div>
         )}
 
-        <Link href={"/About-us"}>
-          <button className="flex items-center justify-center text-gray-500 hover:text-greenbtn font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
-            درباه ما
-          </button>
-        </Link>
-        <Link href={"/Login-user"}>
-          <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greenbtn font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
-            ورود/ ثبت نام
-          </button>
-        </Link>
-        <Link href={"/admin"}>
-          <button className="flex items-center justify-center shadow-md text-gray-500 hover:text-greenbtn font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto">
-            پنل ادمین
-          </button>
-        </Link>
-
-        <div className="relative inline-block text-left">
-          <button
-            onMouseEnter={toggleDropdown}
-            onMouseLeave={handleMouseLeave}
-            className="flex items-center justify-center shadow-md text-gray-500 hover:text-greenbtn font-semibold transition duration-500 ease-in-out hover:border-b-greenbtn border border-b-2 p-2 rounded-md text-sm w-full md:w-auto"
+        <div className="hidden md:flex justify-center mt-4 space-x-8">
+          <Link
+            href="/About-us"
+            className="cursor-pointer rounded-md py-1  px-2 text-sm font-medium hover:bg-gray-100 hover:text-browntext"
           >
-            <RiArrowDropDownLine className="w-5 h-5" /> منو
-          </button>
-
-          {isDropdownOpen && (
-         <div id="dropdownNavbar" className="z-10 flex  justify-center absolute right-0 mt-2 w-52 bg-white divide-y divide-gray-100 rounded-lg shadow">
-         <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownLargeButton">
-           <li>
-             <Link href={"/menu/cafe"}>
-               <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
-                 cafe / کافه
-               </button>
-             </Link>
-           </li>
-           <li>
-             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
-               Main dish / غذاهای اصلی
-             </button>
-           </li>
-           <li>
-             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
-               Appetizer / پیش غذا
-             </button>
-           </li>
-           <li>
-             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
-               Breakfast / صبحانه
-             </button>
-           </li>
-           <li>
-             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
-               Drinks / نوشیدنی ها
-             </button>
-           </li>
-           <li>
-             <button className="block text-center px-4 py-2 hover:text-gray-100 hover:bg-green-800">
-               Special items / ویژه
-             </button>
-           </li>
-         </ul>
-       </div>
-          )}
+            درباره ما
+          </Link>
+          <Link
+            href="/branches"
+            className="cursor-pointer rounded-md py-1 px-2 text-sm font-medium hover:bg-gray-100 hover:text-browntext"
+          >
+            آدرس شعب
+          </Link>
+          <Link
+            href="/shoping"
+            className="cursor-pointer rounded-md py-1 px-2 text-sm font-medium hover:bg-gray-100 hover:text-browntext"
+          >
+            فروشگاه محصولات
+          </Link>
+          <Link
+            href="/menu"
+            className="cursor-pointer rounded-md py-1 px-2 text-sm font-medium hover:bg-gray-100 hover:text-browntext"
+          >
+            منو
+          </Link>
         </div>
-        <Link href={"/Shop"}></Link>
-      </section>
-    </header>
+      </div>
+    </nav>
   );
-}
+};
