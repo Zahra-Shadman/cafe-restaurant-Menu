@@ -10,3 +10,4 @@ export const LoginError = () => toast("خطا در ورود! لطفا مجدد �
 export const SignupSuccessful  =() => toast.success("ثبت نام با موفقیت انجام شد ! خوش آمدید");
 export const LoginSuccessful  =() => toast.success("ورود با موفقیت انجام شد ! خوش آمدید");
 export const DiscountCodeSuccessful = () => toast("کد تخفیف شما با موفقیت اعمال شد ");
+export const logoutSuccess = () => toast("!خروج از حساب با موفقیت انجام شد ");
