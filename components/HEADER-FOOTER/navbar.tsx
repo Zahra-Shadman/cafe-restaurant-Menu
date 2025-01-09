@@ -9,6 +9,8 @@ import Cookies from "js-cookie";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import CartIcon from "../card.icon";
+import { logoutSuccess } from "@/lib/toast/toasts";
+import { ToastContainer } from "react-toastify";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +46,7 @@ export const Navbar = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
     localStorage.removeItem("userData");
-
+    logoutSuccess();
     setIsLoggedIn(false);
     setUsername("");
     setShowDropdown(false);
@@ -94,13 +96,13 @@ export const Navbar = () => {
             <div className="flex items-center">
               <Link href="/orders">
                 <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-2 hover:bg-gray-100">
-                  <PiListChecksFill className="h-5 w-5 text-browni" />
+                  <PiListChecksFill className="h-5 w-5 text-green-950" />
                 </div>
               </Link>
 
               <Link href="/favorite">
                 <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-2 hover:bg-gray-100">
-                  <FaHeart className="h-5 w-5 text-browni" />
+                  <FaHeart className="h-5 w-5 text-green-950" />
                 </div>
               </Link>
 
@@ -112,9 +114,9 @@ export const Navbar = () => {
                 <div className="relative">
                   <div
                     onClick={() => setShowDropdown(!showDropdown)}
-                    className="flex cursor-pointer text-browni font-bold items-center gap-x-1 rounded-md py-2 px-2 hover:bg-gray-100"
+                    className="flex cursor-pointer text-green-950 font-bold items-center gap-x-1 rounded-md py-2 px-2 hover:bg-gray-100"
                   >
-                    <IoPersonCircleOutline className="h-6 w-6 text-browni" />{" "}
+                    <IoPersonCircleOutline className="h-6 w-6 text-green-950" />
                     {username} <MdOutlineArrowDropDown />
                   </div>
 
@@ -142,7 +144,7 @@ export const Navbar = () => {
               ) : (
                 <Link href="/Login">
                   <div className="flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-2 hover:bg-gray-100 ml-2">
-                    <RiUserSharedFill className="h-5 w-5 text-browni" />
+                    <RiUserSharedFill className="h-5 w-5 text-green-950" />
                   </div>
                 </Link>
               )}
@@ -161,10 +163,53 @@ export const Navbar = () => {
 
               <div className="flex justify-between items-center mb-4">
                 <div className="flex space-x-5">
-                  <PiListChecksFill className="h-5 w-5 text-browni" />
-                  <FaHeart className="h-5 w-5 text-browni" />
-                  <FaShoppingCart className="h-5 w-5 text-browni" />
-                  <RiUserSharedFill className="h-5 w-5 text-browni" />
+                  <Link href={"/orders"}>
+                    <PiListChecksFill className="h-5 w-5 text-green-950" />
+                  </Link>
+                  <Link href={"/favorite"}>
+                    <FaHeart className="h-5 w-5 text-green-950" />
+                  </Link>
+                  <Link href={"/Shop"}>
+                    <CartIcon />
+                  </Link>
+                  {isLoggedIn ? (
+                    <div className="relative">
+                      <div
+                        onClick={() => setShowDropdown(!showDropdown)}
+                        className="flex cursor-pointer text-green-950 font-bold items-center gap-x-1 rounded-md py-2 px-2 hover:bg-gray-100"
+                      >
+                        <IoPersonCircleOutline className="h-6 w-6 text-green-950" />
+                        {username} <MdOutlineArrowDropDown />
+                      </div>
+
+                      {showDropdown && (
+                        <div className="absolute text-center right-0 mt-2 w-48 bg-white border rounded-md shadow-lg">
+                          <Link href="/profile">
+                            <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                              پروفایل
+                            </div>
+                          </Link>
+                          <Link href="/orders">
+                            <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                              سفارشات
+                            </div>
+                          </Link>
+                          <div
+                            onClick={handleLogout}
+                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
+                          >
+                            خروج از حساب کاربری
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link href="/Login">
+                      <div className="flex cursor-pointer items-center gap-x-1 rounded-md border py-2 px-2 hover:bg-gray-100 ml-2">
+                        <RiUserSharedFill className="h-5 w-5 text-green-950" />
+                      </div>
+                    </Link>
+                  )}
                 </div>
               </div>
 
@@ -225,6 +270,7 @@ export const Navbar = () => {
           </Link>
         </div>
       </div>
+      <ToastContainer />
     </nav>
   );
 };
