@@ -7,19 +7,23 @@ interface CategorySubcategorySelectorProps {
   onSubcategoryChange: (subcategoryId: string | null) => void;
 }
 
-const CategorySubcategorySelector: React.FC<CategorySubcategorySelectorProps> = ({
-  onCategoryChange,
-  onSubcategoryChange,
-}) => {
+const CategorySubcategorySelector: React.FC<
+  CategorySubcategorySelectorProps
+> = ({ onCategoryChange, onSubcategoryChange }) => {
   const [categories, setCategories] = useState<any[]>([]);
   const [subcategories, setSubcategories] = useState<any[]>([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(categoriesUrl);
-        if (response.data.status === "success" && Array.isArray(response.data.data.categories)) {
+        if (
+          response.data.status === "success" &&
+          Array.isArray(response.data.data.categories)
+        ) {
           setCategories(response.data.data.categories);
         } else {
           console.error("err", response.data);
@@ -35,12 +39,15 @@ const CategorySubcategorySelector: React.FC<CategorySubcategorySelectorProps> = 
   const handleCategoryChange = async (categoryId: string) => {
     setSelectedCategoryId(categoryId);
     onCategoryChange(categoryId);
-    onSubcategoryChange(null); 
+    onSubcategoryChange(null);
 
     if (categoryId) {
       try {
         const response = await axios.get(subcategoriesUrl(categoryId));
-        if (response.data.status === "success" && Array.isArray(response.data.data.subcategories)) {
+        if (
+          response.data.status === "success" &&
+          Array.isArray(response.data.data.subcategories)
+        ) {
           setSubcategories(response.data.data.subcategories);
         } else {
           console.error("ree", response.data);
@@ -55,7 +62,6 @@ const CategorySubcategorySelector: React.FC<CategorySubcategorySelectorProps> = 
 
   return (
     <div>
-      
       <div className="flex flex-wrap justify-center gap-4 mb-4">
         {categories.map((category) => (
           <button
@@ -64,7 +70,11 @@ const CategorySubcategorySelector: React.FC<CategorySubcategorySelectorProps> = 
             onClick={() => handleCategoryChange(category._id)}
           >
             <div className="flex flex-col items-center">
-              <img src={`${caticons}${category.icon}`} alt={category.name} className="w-12 mb-1" />
+              <img
+                src={`${caticons}${category.icon}`}
+                alt={category.name}
+                className="w-12 mb-1"
+              />
               <span className="text-sm">{category.name}</span>
             </div>
           </button>

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import CategorySubcategorySelector from "@/components/CATEGORY-SUBCATEGORY/subcategoty.getter";
+import { VscAdd } from "react-icons/vsc";
 
 import { z } from "zod";
-import { productSchema } from "@/lib/validation";
+import { productSchema } from "@/lib/zod/add-product-validation";
 
 interface AddItemsModelProps {
   onProductAdded: (newProduct: any) => void;
@@ -95,10 +96,10 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
     <div>
       <button
         onClick={toggleModal}
-        className="block text-white w-46 bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        className="block text-gray-800 w-46 bg-gray-300 mb-2 ml-2 hover:bg-gray-400 focus:ring-4  shadow-md rounded-sm text-sm px-3 py-2 text-center"
         type="button"
       >
-        افزودن محصول جدید
+        <VscAdd className="font-semibold" />
       </button>
 
       <div
@@ -108,13 +109,13 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
       >
         <div className="relative p-4 w-full max-w-[730px] max-h-full">
           <div className="relative bg-white rounded-lg shadow">
-            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-              <h3 className="text-lg font-semibold text-gray-900 ">
+            <div className="flex justify-between p-4 md:p-5 ">
+              <h3 className="text-lg font-semibold flex justify-center text-gray-900 ">
                 افزودن محصول جدید
               </h3>
               <button
                 type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w -8 h-8 ms-auto inline-flex justify-center items-center"
+                className=" font-bold text-xl "
                 onClick={toggleModal}
               >
                 ×<span className="sr-only">Close modal</span>
@@ -126,14 +127,14 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
                 <div className="col-span-2">
                   <label
                     htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-gray-900"
+                    className="block mb-2 text-sm font-medium text-right text-gray-900"
                   >
                     نام محصول
                   </label>
                   <input
                     type="text"
                     id="name"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    className="bg-gray-50 border text-right border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
@@ -141,7 +142,7 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
                 <div className="col-span-2">
                   <label
                     htmlFor="brand"
-                    className="block mb-2 text-sm font-medium text-gray-900 "
+                    className="block text-right mb-2 text-sm font-medium text-gray-900 "
                   >
                     برند
                   </label>
@@ -149,7 +150,7 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
                     type="text"
                     name="brand"
                     id="brand"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    className="bg-gray-50 border text-right border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     value={brand}
                     onChange={(e) => setBrand(e.target.value)}
                   />
@@ -157,7 +158,7 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
                 <div className="col-span-2 sm:col-span-1">
                   <label
                     htmlFor="price"
-                    className="block mb-2 text-sm font-medium text-gray-900 "
+                    className="block text-right mb-2 text-sm font-medium text-gray-900 "
                   >
                     قیمت
                   </label>
@@ -165,15 +166,15 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
                     type="number"
                     name="price"
                     id="price"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 mt-3"
+                    className="bg-gray-50 text-right border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 mt-3"
                     value={price}
                     onChange={(e) => setPrice(Number(e.target.value))}
                   />
                 </div>
-                <div className="flex">
+                <div className="flex text-right">
                   <label
                     htmlFor="category"
-                    className="block mb-2 text-sm font-medium text-gray-900"
+                    className="block mb-2  text-right text-sm font-medium text-gray-900"
                   ></label>
                   <CategorySubcategorySelector
                     onCategoryChange={handleCategoryChange}
@@ -183,14 +184,14 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
                 <div className="col-span-2">
                   <label
                     htmlFor="description"
-                    className="block mb-2 text-sm font-medium text-gray-900"
+                    className="block mb-2 text-sm text-right font-medium text-gray-900"
                   >
                     توضیحات
                   </label>
                   <textarea
                     id="description"
-                    className="block p-2.5 caret-green-500  w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Write product description here"
+                    className="block p-2.5 caret-green-500 text-right  w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+                    placeholder="حداکثر 5 کلمه در مورد محصول خود بنویسید"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   ></textarea>
@@ -198,7 +199,7 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
                 <div className="col-span-2">
                   <label
                     htmlFor="quantity"
-                    className="block mb-2 text-sm font-medium text-gray-900"
+                    className="block mb-2 text-sm text-right font-medium text-gray-900"
                   >
                     تعداد موجودی
                   </label>
@@ -206,7 +207,7 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
                     type="number"
                     name="quantity"
                     id="quantity"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                    className="bg-gray-50 border text-right border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                     placeholder="Enter quantity"
                     value={quantity}
                     onChange={(e) => setQuantity(Number(e.target.value))}
@@ -218,7 +219,7 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
                   type="file"
                   name="images"
                   id="images"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600  border-primary-600 block w-full p-2.5"
+                  className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600  border-primary-600 block w-full p-2.5"
                   onChange={(e) => {
                     if (e.target.files) {
                       setImages(e.target.files[0]);
@@ -229,7 +230,7 @@ const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {
               <button
                 onClick={toggleModal}
                 type="submit"
-                className="text-white inline-flex mt-4  items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white w-full text-center py-2 mt-3 rounded-md  bg-green-900 hover:bg-green-800 "
               >
                 افزودن
               </button>

@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { login } from "@/api/Login";
 import { useRouter } from "next/navigation";
 import { Flip, ToastContainer } from "react-toastify";
-import { GoingToDashoeard, loginSuccess } from "../TOAST/toasts";
+import { GoingToDashoeard, loginSuccess } from "../../lib/toast/toasts";
 
 export const AdminLoginPage = () => {
   const [username, setUsername] = useState("");
@@ -19,7 +19,14 @@ export const AdminLoginPage = () => {
     setError("");
 
     try {
-      const { token } = await login(username, password);
+      const response = await login(username, password);
+
+      if (response.data.user.role.toUpperCase() === "USER") {
+        setError(" You do not have permission to access the admin panel");
+        return;
+      }
+
+      const { token } = response;
       localStorage.setItem("accessToken", token.accessToken);
       localStorage.setItem("refreshToken", token.refreshToken);
 
@@ -30,7 +37,7 @@ export const AdminLoginPage = () => {
         window.location.href = "/admin/dashboard";
       }, 3000);
     } catch (err) {
-      setError("server error");
+      setError("Server error");
     }
   };
 
@@ -38,7 +45,7 @@ export const AdminLoginPage = () => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       const tokenPayload = JSON.parse(atob(accessToken.split(".")[1]));
-      const isExpired = Date.now() >= tokenPayload.exp * 1000; 
+      const isExpired = Date.now() >= tokenPayload.exp * 1000;
 
       if (isExpired) {
         window.location.href = "/admin";
@@ -47,6 +54,7 @@ export const AdminLoginPage = () => {
       }
     }
   }, [router]);
+
   return (
     <div
       className="flex justify-center items-center font-[sans-serif] h-full min-h-screen p-4 relative"
@@ -67,6 +75,9 @@ export const AdminLoginPage = () => {
               خوش آمدید
             </h3>
           </div>
+          {error && (
+            <div className="text-red-500 text-center mb-4">{error}</div>
+          )}
           <div className="relative flex items-center mb-6">
             <PiUser className="absolute left-2 w-[18px] h-[18px] text-gray-700 cursor-pointer" />
             <input

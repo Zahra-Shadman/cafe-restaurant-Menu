@@ -6,15 +6,12 @@ export const ProductDetailsSkeleton: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8 animate-pulse">
       <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        <div className="bg-gradient-to-tr from-gray-200 via-gray-100 to-gray-50 rounded-lg p-2 flex flex-col items-center">
-        </div>
+        <div className="bg-gradient-to-tr from-gray-200 via-gray-100 to-gray-50 rounded-lg p-2 flex flex-col items-center"></div>
         <div className="space-y-6 text-right">
           <div>
             <div className="h-4 bg-gray-200 rounded w-full mb-4 animate-pulse"></div>
           </div>
-          <div className="flex items-center gap-4 mb-4">
-        
-          </div>
+          <div className="flex items-center gap-4 mb-4"></div>
 
           <div className="space-y-4">
             <div className="h-6 bg-gray-300 rounded w-1/2 animate-pulse"></div>

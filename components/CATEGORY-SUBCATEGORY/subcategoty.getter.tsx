@@ -121,4 +121,3 @@ const CategorySubcategorySelector: React.FC<
 };
 
 export default CategorySubcategorySelector;
- 

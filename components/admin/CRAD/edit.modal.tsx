@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { RiErrorWarningLine } from "react-icons/ri";
-import { EditSuccess } from "@/components/TOAST/toasts";
+import { EditSuccess } from "@/lib/toast/toasts";
 import { ToastContainer } from "react-toastify";
+import { IProduct } from "@/types/category";
+import { TbEditCircle } from "react-icons/tb";
 
 interface EditModalProps {
   Id: string;
@@ -10,6 +12,8 @@ interface EditModalProps {
 
 export default function EditModal({ Id }: EditModalProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [originalProductData, setOriginalProductData] =
+    useState<IProduct | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     quantity: "",
@@ -17,8 +21,31 @@ export default function EditModal({ Id }: EditModalProps) {
     description: "",
   });
 
+  const fetchProductDetails = async () => {
+    try {
+      const response = await axios.get<{ data: { product: IProduct } }>(
+        `http://localhost:8000/api/products/${Id}`
+      );
+      const product = response.data.data.product;
+
+      setOriginalProductData(product);
+
+      setFormData({
+        name: product.name,
+        quantity: product.quantity.toString(),
+        price: product.price,
+        description: product.description,
+      });
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+    }
+  };
+
   const toggleModal = () => {
     setIsOpen(!isOpen);
+    if (!isOpen) {
+      fetchProductDetails();
+    }
   };
 
   const handleChange = (
@@ -32,18 +59,34 @@ export default function EditModal({ Id }: EditModalProps) {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const dataToSend: Partial<IProduct> = {};
+
+    if (formData.name !== originalProductData?.name) {
+      dataToSend.name = formData.name;
+    }
+    if (formData.quantity !== originalProductData?.quantity.toString()) {
+      dataToSend.quantity = parseInt(formData.quantity);
+    }
+    if (formData.price !== originalProductData?.price) {
+      dataToSend.price = formData.price;
+    }
+    if (formData.description !== originalProductData?.description) {
+      dataToSend.description = formData.description;
+    }
+
     try {
       const response = await axios.patch(
         `http://localhost:8000/api/products/${Id}`,
-        formData,
+        dataToSend,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-
-      console.log("Product updated successfully:", response.data);
+      console.log(response);
       EditSuccess();
       toggleModal();
     } catch (error) {
@@ -54,22 +97,18 @@ export default function EditModal({ Id }: EditModalProps) {
   return (
     <div>
       <div className="flex justify-center p-1">
-        <button
-          onClick={toggleModal}
-          className="block text-gray-200  bg-green-800 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          type="button"
-        >
-          ویرایش اطلاعات
+        <button onClick={toggleModal} type="button">
+          <TbEditCircle className="w-8 h-6 text-gray-700" />
         </button>
       </div>
 
       {isOpen && (
         <div
           aria-hidden="true"
-          className="fixed flex  top-0 right-0 left-0  justify-center items-center w-full h-full overflow-y-auto overflow-x-hidden bg-black bg-opacity-50"
+          className="fixed flex top-0 right-0 left-0 justify-center items-center w-full h-full overflow-y-auto overflow-x-hidden bg-black bg-opacity-50"
         >
-          <div className="relative p-4 w-full max-w-2xl h-full md:h-auto ">
-            <div className="relative p-4 bg-white rounded-lg shadow  dark:bg-gray-800 sm:p-5">
+          <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
+            <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
               <div className="flex justify-between items-center  pb-4 mb-4 rounded-t border-b sm:mb-5">
                 <h3 className=" font-semibold  text-gray-900">
                   <span className="ml-52"> ویرایش اطلاعات محصول</span>
@@ -77,9 +116,9 @@ export default function EditModal({ Id }: EditModalProps) {
                 <button
                   type="button"
                   onClick={toggleModal}
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  className="text-gray-800  font-bold text-lg"
                 >
-                  x
+                  ×
                 </button>
               </div>
               <form onSubmit={handleSubmit}>
@@ -154,7 +193,7 @@ export default function EditModal({ Id }: EditModalProps) {
                   <div className=" ml-56 w-40 ">
                     <button
                       type="submit"
-                      className="text-white bg-purple-800 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      className="text-white bg-purple-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     >
                       آپدیت اطلاعات
                     </button>
@@ -163,9 +202,9 @@ export default function EditModal({ Id }: EditModalProps) {
               </form>
             </div>
           </div>
-          <ToastContainer />
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 }

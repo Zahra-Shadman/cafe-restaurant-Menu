@@ -20,7 +20,8 @@
       "default",
       {
         "empty-table-header": "off",
-        "aria-valid-attr-value": "off"
+        "aria-valid-attr-value": "off",
+        "aria-required-parent": "off"
       }
     ],
     "axe/structure": [

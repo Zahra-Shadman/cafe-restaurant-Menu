@@ -1,9 +1,10 @@
-import OrderList from "@/components/admin/orders.table";
+import {  OrdersDataTable } from "@/components/admin/ORDERS/orders.table";
+
 
 export default function Orders (){
     return(
         <div>
-           <OrderList />
+           <OrdersDataTable />
         </div>
     )
 }
