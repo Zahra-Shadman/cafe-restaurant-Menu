@@ -47,10 +47,9 @@ export const OrdersDataTable: React.FC = () => {
       }
     };
 
-    fetchOrders(); // Call the fetchOrders function
+    fetchOrders(); 
 
-  }, []); // Empty dependency array to run only on mount
-
+  }, []); 
   const handleUpdateDeliveryStatus = async (orderId: string) => {
     try {
       await axios.patch(`${OrderUrl}/${orderId}`, {
