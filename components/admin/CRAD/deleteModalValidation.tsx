@@ -21,7 +21,7 @@ export const DeleteModalValidation: React.FC<DeleteModalValidationProps> = ({
             </button>
             <div className="p-4 md:p-5 text-center">
               <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                آیا از حذف کردن این محصول مطمئن هستید؟
+                آیا مطمئن هستید؟
               </h3>
               <button
                 onClick={onConfirm}

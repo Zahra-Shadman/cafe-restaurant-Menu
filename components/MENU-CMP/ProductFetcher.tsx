@@ -46,7 +46,10 @@ const ProductFetcher: React.FC<ProductFetcherProps> = ({
         `http://localhost:8000/api/products?page=${page}&limit=${limit}&fields=-rating,-createdAt,-updatedAt,-__v&sort=price&quantity[gte]=8&subcategory=${subcategoryId}&category=${categoryId}` // Add categoryId to the URL
       );
       if (response.data.status === "success") {
-        onFetchSuccess(response.data.data.products, response.data.data.total_pages);
+        onFetchSuccess(
+          response.data.data.products,
+          response.data.data.total_pages
+        );
       }
     } catch (err) {
       onFetchError("Failed to fetch products");
@@ -57,12 +60,12 @@ const ProductFetcher: React.FC<ProductFetcherProps> = ({
 
   useEffect(() => {
     fetchProducts(currentPage);
-  }, [currentPage, subcategoryId, categoryId]); 
+  }, [currentPage, subcategoryId, categoryId]);
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  return null; 
+  return null;
 };
 
 export default ProductFetcher;

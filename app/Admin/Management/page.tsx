@@ -1,4 +1,4 @@
-import EditTable from "@/components/admin/CRAD/price-quentity";
+import EditTable from "@/components/admin/CRAD/edit-table";
 
 export default function Managment() {
     return (

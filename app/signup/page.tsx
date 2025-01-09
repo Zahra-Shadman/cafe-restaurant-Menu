@@ -5,10 +5,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { signUpUrl } from "@/api/urls";
-import { ToastContainer, toast } from "react-toastify";
-import { SignupSuccessful } from "@/lib/TOAST/toasts";
+import { ToastContainer } from "react-toastify";
+import { SignupSuccessful } from "@/lib/toast/toasts";
 
-const check_phone = (number: string): boolean => {
+export const checkPhone = (number: string): boolean => {
   const regex = new RegExp("^(\\+98|0)?9\\d{9}$");
   return regex.test(number);
 };
@@ -28,7 +28,7 @@ const SignUp: React.FC = () => {
     e.preventDefault();
     setError("");
 
-    if (!check_phone(phoneNumber)) {
+    if (!checkPhone(phoneNumber)) {
       setIsValidPhone(false);
       return;
     } else {
@@ -63,15 +63,13 @@ const SignUp: React.FC = () => {
         );
 
         SignupSuccessful();
-        router.push("/profile");
+        router.push("/Login");
       }
     } catch (err: any) {
       if (err.response) {
         setError(err.response.data.message || "Signup failed");
       } else if (err.request) {
         setError("No response from server");
-      } else {
-        setError("Error during signup");
       }
       console.error("Signup error:", err);
     }
@@ -84,10 +82,8 @@ const SignUp: React.FC = () => {
           <div className="w-full">
             <div className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
               <div className="g-0 lg:flex lg:flex-wrap">
-                {/* Left column container */}
                 <div className="px-4 md:px-0 lg:w-6/12">
                   <div className="md:mx-6 md:p-8">
-                    {/* Logo */}
                     <div className="text-center">
                       <img
                         className="mx-auto w-48 h-auto"
@@ -101,10 +97,9 @@ const SignUp: React.FC = () => {
 
                     <form onSubmit={handleSignUp} className="space-y-4">
                       <p className="mb-4 text-center">
-                        لطفا ثبت نام خود را تکمیل کنید{" "}
+                        لطفا ثبت نام خود را تکمیل کنید
                       </p>
 
-                      {/* Input fields with reduced margins */}
                       <div className="space-y-3">
                         <input
                           type="text"
@@ -147,7 +142,7 @@ const SignUp: React.FC = () => {
                           value={phoneNumber}
                           onChange={(e) => {
                             setPhoneNumber(e.target.value);
-                            setIsValidPhone(check_phone(e.target.value)); // Validate on change
+                            setIsValidPhone(checkPhone(e.target.value));
                           }}
                           required
                           className={`w-full  text-right rounded border-0 bg-transparent px-3 py-2 leading-[1.6] outline-none transition-all duration-200 ease-linear border-b-2 ${
@@ -169,7 +164,6 @@ const SignUp: React.FC = () => {
                         />
                       </div>
 
-                      {/* Submit button */}
                       <div className="text-center mt-4">
                         <button
                           type="submit"
@@ -188,7 +182,6 @@ const SignUp: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Right column */}
                 <div
                   className="hidden lg:flex lg:w-1/2 items-center justify-center text-white"
                   style={{

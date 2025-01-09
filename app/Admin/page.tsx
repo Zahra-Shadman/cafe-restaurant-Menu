@@ -2,10 +2,10 @@
 
 import { AdminLoginPage } from "@/components/admin/admin.loginForm";
 
-export default function AdminLoginForm (){
-  return(
+export default function AdminLoginForm() {
+  return (
     <div>
       <AdminLoginPage />
     </div>
-  )
+  );
 }

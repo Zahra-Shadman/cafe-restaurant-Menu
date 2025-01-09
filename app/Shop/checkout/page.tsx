@@ -1,43 +1,88 @@
 "use client";
 
-import { useAppSelector, useAppDispatch } from "@/redux/store";
-import { removeFromCart } from "@/redux/slices/cartSlice";
+import { useState, useEffect } from "react";
+import { useAppSelector } from "@/redux/store";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import DiscountCode from "@/components/DiscountCode";
+import { CartItem } from "@/types/redux";
+import { UserData } from "@/types/shop";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import DeliveryDateTimePicker from "@/components/admin/ORDERS/DeliveryDateTimeSelector";
+
+export const orderFormSchema = z.object({
+  firstname: z.string().min(2, "نام الزامی است"),
+  lastname: z.string().min(2, "نام خانوادگی الزامی است"),
+  phone: z.string().min(10, "شماره تلفن الزامی است"),
+  address: z.string().min(5, "آدرس دقیق الزامی است"),
+  city: z.string(),
+  province: z.string(),
+  saveAddress: z.boolean().optional(),
+});
+
+export type OrderFormSchema = z.infer<typeof orderFormSchema>;
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const { items } = useAppSelector((state) => state.cart);
- 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string>("");
+  const [total, setTotal] = useState<number>(0);
 
-  // State variables for user information
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [total, setTotal] = useState<number>(0); // State for total price
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<OrderFormSchema>({
+    resolver: zodResolver(orderFormSchema),
+  });
 
   useEffect(() => {
-    // Get user data from localStorage
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      const user = JSON.parse(userData);
-      setFirstName(user.firstname || ""); // Assuming user object has firstName
-      setLastName(user.lastname || ""); // Assuming user object has lastName
-      setPhoneNumber(user.phoneNumber || ""); // Assuming user object has phoneNumber
-      setAddress(user.address || ""); // Assuming user object has address
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      try {
+        const userData: UserData = JSON.parse(storedUserData);
+        setUserId(userData._id);
+
+        setValue("firstname", userData.firstname || "");
+        setValue("lastname", userData.lastname || "");
+        setValue("phone", userData.phoneNumber || "");
+        setValue("address", userData.address || "");
+        setValue("city", userData.city || "ایران");
+        setValue("province", userData.province || "تهران");
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
     }
-  }, []);
+  }, [setValue]);
 
   useEffect(() => {
-    // Calculate total price from items
     const calculatedTotal = items.reduce(
-      (acc, item) => acc + item.price * item.quantity,
+      (acc, item: CartItem) => acc + item.price * item.quantity,
       0
     );
     setTotal(calculatedTotal);
   }, [items]);
+
+  const onSubmit: SubmitHandler<OrderFormSchema> = async (data) => {
+    const orderData = {
+      user: userId,
+      products: items.map((item: CartItem) => ({
+        product: item.id,
+        count: item.quantity,
+      })),
+      ...data,
+    };
+
+    const encodedOrderData = encodeURIComponent(JSON.stringify(orderData));
+
+    router.push(`/payment?orderData=${encodedOrderData}`);
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center py-10">
@@ -48,27 +93,35 @@ export default function CheckoutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <div className="bg-gray-50 p-6 rounded-lg mb-6">
-              <form className="text-right">
+              <form onSubmit={handleSubmit(onSubmit)} className="text-right">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
                     <label className="block mb-2">نام خانوادگی</label>
                     <input
                       type="text"
+                      {...register("lastname")}
                       className="w-full p-2 rounded border-2 text-right bg-gray-100 text-gray-900"
                       placeholder="نام خانوادگی خود را وارد کنید"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
                     />
+                    {errors.lastname && (
+                      <p className="text-red-500 text-sm">
+                        {errors.lastname.message}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <label className="block mb-2 ">نام</label>
                     <input
                       type="text"
+                      {...register("firstname")}
                       className="w-full p-2 rounded border-2 text-right bg-gray-100 text-gray-900"
                       placeholder="نام خود را وارد کنید"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
                     />
+                    {errors.firstname && (
+                      <p className="text-red-500 text-sm">
+                        {errors.firstname.message}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className="mb-4">
@@ -76,35 +129,49 @@ export default function CheckoutPage() {
                   <div className="flex flex-row-reverse">
                     <input
                       type="text"
+                      {...register("phone")}
                       className="w-full p-2 rounded-r bg-gray-100 border-2 text-gray-900"
                       placeholder="0912-000-000"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
                     />
                     <select className="p-2 rounded-l bg-gray-100 text-gray-900">
                       <option>+۹۸</option>
                     </select>
                   </div>
+                  {errors.phone && (
+                    <p className="text-red-500 text-sm">
+                      {errors.phone.message}
+                    </p>
+                  )}
                 </div>
                 <div className="mb-4">
                   <label className="block mb-2 ">آدرس ارسال</label>
                   <textarea
+                    {...register("address")}
                     className="w-full p-2 rounded border-2 text-right bg-gray-100 text-gray-900"
                     placeholder="آدرس خود را وارد کنید"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
                   ></textarea>
+                  {errors.address && (
+                    <p className="text-red-500 text-sm">
+                      {errors.address.message}
+                    </p>
+                  )}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
                     <label className="block mb-2">شهر</label>
-                    <select className="w-full p-2 border-2 text-right rounded bg-gray-100 text-gray-900">
-                      <option>ایران</option>
+                    <select
+                      {...register("city")}
+                      className="w-full p-2 border-2 text-right rounded bg-gray-100 text-gray-900"
+                    >
+                      <option>تهران</option>
                     </select>
                   </div>
                   <div>
                     <label className="block mb-2 ">استان</label>
-                    <select className="w-full p-2 border-2 text-right rounded bg-gray-100 text-gray-900">
+                    <select
+                      {...register("province")}
+                      className="w-full p-2 border-2 text-right rounded bg-gray-100 text-gray-900"
+                    >
                       <option>تهران</option>
                     </select>
                   </div>
@@ -113,61 +180,37 @@ export default function CheckoutPage() {
                   <label htmlFor="saveAddress" className="ml-2">
                     ذخیره اطلاعات در لیست آدرس‌ها
                   </label>
-                  <input type="checkbox" id="saveAddress" className="ml-2" />
+                  <input
+                    type="checkbox"
+                    {...register("saveAddress")}
+                    className="ml-2"
+                  />
                 </div>
+                <button
+                  type="submit"
+                  disabled={isLoading || items.length === 0}
+                  className="w-full mt-6 py-2 bg-green-600 hover:bg-green-800 text-white rounded-lg"
+                >
+                  {isLoading ? "در حال ثبت سفارش..." : "ثبت سفارش"}
+                </button>
+                <Link
+                  href="/Shop"
+                  className="block mt-4 text-center text-green-500 hover:text-green-800"
+                >
+                  بازگشت به سبد خرید
+                </Link>
               </form>
             </div>
-            <div className="p-6 rounded-lg text-right">
-              <h2 className="text-xl font-semibold mb-4 text-right">
-                جزئیات پرداخت
-              </h2>
-              <form className="text-right">
-                <div className="flex items-center mb-4 justify-end">
-                  <label htmlFor="bankCard" className="ml-4">
-                    پرداخت آنلاین با کارت بانکی
-                  </label>
-                  <input
-                    type="radio"
-                    id="bankCard"
-                    name="paymentType"
-                    className="ml-2"
-                  />
-                </div>
-                <div className="flex items-center mb-4 justify-end">
-                  <label htmlFor="installments" className="ml-4">
-                    اقساط آنلاین فلوبایت
-                  </label>
-                  <input
-                    type="radio"
-                    id="installments"
-                    name="paymentType"
-                    className="ml-2"
-                  />
-                </div>
-                <p className="text-sm text-gray-400 mb-4 text-right">
-                  شما از 1٪ در ماه تا 31 ژانویه 2024 بهره‌مند خواهید شد.
-                </p>
-                <div className="flex items-center mb-4 justify-end">
-                  <label htmlFor="storeCard" className="ml-4">
-                    پرداخت آنلاین با کارت ستاره فلوبایت
-                  </label>
-                  <input
-                    type="radio"
-                    id="storeCard"
-                    name="paymentType"
-                    className="ml-2"
-                  />
-                </div>
-                <div className="flex items-center mb-4 justify-end">
-                  <label htmlFor="paymentOrder">سفارش پرداخت</label>
-                  <input
-                    type="radio"
-                    id="paymentOrder"
-                    name="paymentType"
-                    className="ml-2"
-                  />
-                </div>
-              </form>
+            <h2 className="text-xl font-semibold mb-4 text-right">
+              بازه زمانی تحویل سفارش
+            </h2>
+            <div className="p-6 flex flex-col md:flex-row rounded-lg text-right bg-gray-100">
+              <DeliveryDateTimePicker
+                orderId={""}
+                onUpdate={function (): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
             </div>
           </div>
           <div>
@@ -176,7 +219,7 @@ export default function CheckoutPage() {
                 آیتم های انتخابی
               </h2>
               <div className="space-y-4">
-                {items.map((item) => (
+                {items.map((item: CartItem) => (
                   <div
                     key={item.id}
                     className="flex justify-between items-center"
@@ -200,36 +243,32 @@ export default function CheckoutPage() {
               </div>
             </div>
             <div className="bg-gray-100 p-6 rounded-lg">
-  <h2 className="text-xl font-semibold mb-4">Order summary</h2>
-  <div className="space-y-2">
-    <div className="flex justify-between">
-      <p className="">{total} تومان</p>
-      <p>جمع جز</p>
-    </div>
-    <div className="flex justify-between">
-      <p className="">
-        {total * 0.1} تومان
-      </p>
-      <p>مالیات %10</p>
-    </div>
-    <div className="flex justify-between font-semibold text-lg text-pink-700 py-8">
-      <p>{total + total * 0.1} تومان</p> 
-      <p>جمع کل مبلغ</p>
-    </div>
-  </div>
-  <Link href={"/Shop/checkout/payment"}> <DiscountCode total={total} setTotal={setTotal} />
-  <button className="w-full mt-6 py-2 bg-green-600  hover:bg-green-800 text-white rounded-lg">
-   ادامه جهت پرداخت
-  </button></Link>
-  <Link
-    href="/Shop"
-    className="block mt-4 text-center text-green-500 hover:text-green-800"
-  >
-   بازگشت به سبد خرید 
-  </Link>
-</div>
+              <h2 className="text-xl font-semibold mb-4 text-center">
+                خلاصه سفارش
+              </h2>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <p className="">{total} تومان</p>
+                  <p>جمع جز</p>
+                </div>
+                <div className="flex justify-between">
+                  <p className="">{total * 0.1} تومان</p>
+                  <p>مالیات %10</p>
+                </div>
+                <div className="flex justify-between font-semibold text-lg text-pink-700 py-8">
+                  <p>{total + total * 0.1} تومان</p>
+                  <p>جمع کل مبلغ</p>
+                </div>
+              </div>
+              <DiscountCode total={total} setTotal={setTotal} />
+            </div>
           </div>
         </div>
+        {error && (
+          <div className="bg-red-100 text-red-700 p-4 rounded-lg mt-4">
+            {error}
+          </div>
+        )}
       </div>
     </div>
   );

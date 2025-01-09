@@ -1,4 +1,3 @@
-
 import { useAppSelector, useAppDispatch } from "@/redux/store";
 import { TiDelete } from "react-icons/ti";
 
@@ -20,7 +19,7 @@ const CartIcon = () => {
   const uniqueItemsCount = cartItems.length;
 
   const handleRemoveItem = (itemId: string) => {
-    dispatch(removeFromCart(itemId)); 
+    dispatch(removeFromCart(itemId));
   };
 
   return (
@@ -28,7 +27,7 @@ const CartIcon = () => {
       <SheetTrigger asChild>
         <div className="relative cursor-pointer">
           <div className="flex items-center justify-center">
-            <FaShoppingCart className="w-6 h-6 text-browni transition-colors duration-300 ease-in-out hover:text-browni/70" />
+            <FaShoppingCart className="w-6 h-6 text-green-950 transition-colors duration-300 ease-in-out hover:text-breenbtn/70" />
             {uniqueItemsCount > 0 && (
               <span className="absolute -top-2 -right-2 flex items-center justify-center">
                 <span className="absolute inline-flex h-4 w-4 rounded-full bg-green-400 opacity-75 animate-ping"></span>
@@ -40,10 +39,10 @@ const CartIcon = () => {
           </div>
         </div>
       </SheetTrigger>
-      <SheetContent 
+      <SheetContent
         className="w-[350px] transition-all duration-500 ease-in-out"
         style={{
-          animation: 'fadeIn 0.3s ease-out',
+          animation: "fadeIn 0.3s ease-out",
         }}
       >
         <SheetHeader>
@@ -53,7 +52,9 @@ const CartIcon = () => {
         </SheetHeader>
 
         {cartItems.length === 0 ? (
-          <p className="text-center mt-4 text-gray-500">هیچ محصولی در سبدخرید نیست.</p>
+          <p className="text-center mt-4 text-gray-500">
+            هیچ محصولی در سبدخرید نیست.
+          </p>
         ) : (
           <ul className="mt-4 space-y-2 max-h-[400px] overflow-y-auto">
             {cartItems.map((item) => (
@@ -62,14 +63,18 @@ const CartIcon = () => {
                 className="flex justify-between gap-6 items-center p-2 hover:bg-gray-50 rounded-md transition-colors duration-200"
               >
                 <span className="text-gray-700">${item.price.toFixed(2)}</span>
-                <span className="w-full text-center text-gray-600">تعداد {item.quantity} </span>
-                <span className="font-semibold w-full text-center text-gray-800">{item.name}</span>
-                <Button 
-                  onClick={() => handleRemoveItem(item.id)} 
+                <span className="w-full text-center text-gray-600">
+                  تعداد {item.quantity}
+                </span>
+                <span className="font-semibold w-full text-center text-gray-800">
+                  {item.name}
+                </span>
+                <Button
+                  onClick={() => handleRemoveItem(item.id)}
                   className="text-red-500 w-10 h-10"
                   variant="ghost"
                 >
-                  <TiDelete/>
+                  <TiDelete />
                 </Button>
               </li>
             ))}
@@ -78,19 +83,19 @@ const CartIcon = () => {
 
         <div className="mt-4 flex gap-4">
           <Link href="/Shop" className="w-full block">
-            <Button 
+            <Button
               className="w-full bg-green-600 hover:bg-green-800 transition-colors duration-300 ease-in-out"
               variant="default"
             >
-            مشاهده سبد خرید 
+              مشاهده سبد خرید
             </Button>
           </Link>
           <Link href="/Shop/checkout" className="w-full block">
-            <Button 
+            <Button
               className="w-full bg-orange-500 hover:bg-orange-700 transition-colors duration-300 ease-in-out"
               variant="default"
             >
-             تسویه حساب
+              تسویه حساب
             </Button>
           </Link>
         </div>

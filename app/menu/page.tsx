@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { ImageUrl, subcategoriesUrl } from "@/api/urls";
 import { ISubcategory } from "@/types/category";
@@ -18,7 +17,6 @@ import { useAppDispatch } from "@/redux/store";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { toast } from "@/hooks/use-toast";
 
-
 const ProductsPage = () => {
   const [products, setProducts] = useState<IcardProduct[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +30,7 @@ const ProductsPage = () => {
   const [loading, setLoading] = useState(true);
 
   const handleAddToCart = (
-    e: React.MouseEvent<HTMLButtonElement>, 
+    e: React.MouseEvent<HTMLButtonElement>,
     product: IcardProduct
   ) => {
     e.stopPropagation();
@@ -51,7 +49,7 @@ const ProductsPage = () => {
     toast({
       title: "محصول به سبد خرید اضافه شد",
       description: `${product.name} با موفقیت به سبد خرید اضافه شد.`,
-      variant: "default", 
+      variant: "default",
     });
   };
 
@@ -101,7 +99,7 @@ const ProductsPage = () => {
     <div className="md:py-8 mx-auto max-w-full px-4">
       <h1 className="text-2xl text-center p-2 font-semibold text-gray-700">
         مشاهده منو
-        <span className="text-green-600 font-bold block mt-2">
+        <span className="text-green-600 font-bold  mt-2 hidden md:block">
           _____________________________________________________________________________________________________________________
         </span>
       </h1>
@@ -129,17 +127,9 @@ const ProductsPage = () => {
         {error && <p className="text-red-500">{error}</p>}
         <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {products.map((product) => (
-            <div 
-              key={product._id} 
-              className="relative"
-            >
-              <Link 
-                href={`/menu/${product._id}`} 
-                className="block"
-              >
-                <div 
-                  className="bg-slate-100 p-3 rounded-lg shadow-md text-center cursor-pointer"
-                >
+            <div key={product._id} className="relative">
+              <Link href={`/menu/${product._id}`} className="block">
+                <div className="bg-slate-50 p-2 w-full rounded-lg shadow-md text-center cursor-pointer">
                   <div className="flex justify-center items-center mx-auto mb-4">
                     {product.images && product.images.length > 0 && (
                       <img
@@ -149,7 +139,9 @@ const ProductsPage = () => {
                       />
                     )}
                   </div>
-                  <h3 className="text-lg text-green-950 mb-2">{product.name}</h3>
+                  <h3 className="text-lg text-green-950 mb-2">
+                    {product.name}
+                  </h3>
                   <p className="text-lg font-semibold text-green-800 mb-4">
                     {product.price} تومان
                   </p>
@@ -164,7 +156,7 @@ const ProductsPage = () => {
                   </span>
                 </div>
               </Link>
-              
+
               <div className="flex justify-center items-center absolute bottom-3 left-0 right-0">
                 <button
                   onClick={(e) => handleAddToCart(e, product)}

@@ -12,9 +12,7 @@ export default function CartPage() {
 
   return (
     <section
-      className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16"
-      dir="rtl"
-    >
+      className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16"dir="rtl">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl text-right">
           سبد خرید
@@ -48,7 +46,9 @@ export default function CartPage() {
                           <button
                             type="button"
                             className="remove-item text-red-500 hover:text-red-700"
-                            onClick={() => dispatch(removeFromCart(item.id))}
+                            onClick={(_DeleteModalValidation) =>
+                              dispatch(removeFromCart(item.id))
+                            }
                           >
                             <TiDelete className="w-12 h-6" />
                           </button>
@@ -132,7 +132,6 @@ export default function CartPage() {
                 </dl>
                 <dl className="flex items-center justify-between gap-4">
                   <dt className="font-medium w-full text-gray-600 ">
-              
                     حمل و نقل
                   </dt>
                   <dd className="text-gray-900 text-left ">
@@ -141,7 +140,6 @@ export default function CartPage() {
                 </dl>
                 <dl className="flex items-center justify-between gap-4">
                   <dt className="font-medium w-full text-gray-600">
-                
                     مالیات 10%
                   </dt>
                   <dd className="text-gray-900 w-full text-left  ">
@@ -150,7 +148,7 @@ export default function CartPage() {
                 </dl>
                 <dl className="flex items-center justify-between gap-4 border-t pt-2">
                   <dt className="font-semibold text-gray-700">‌جمع کل‌</dt>
-                  <dd className="total font-semibold">{total} تومان</dd>
+                  <dd className="total font-semibold">{total * 0.1} تومان</dd>
                 </dl>
               </div>
 

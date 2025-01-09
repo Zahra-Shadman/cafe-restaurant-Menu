@@ -147,7 +147,6 @@ const ProductDetailsPage: React.FC = () => {
           </div>
         </div>
       </div>
-
       <Reviews />
     </div>
   );

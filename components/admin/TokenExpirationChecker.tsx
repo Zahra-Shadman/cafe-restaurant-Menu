@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { TokenEspieard } from "../../lib/TOAST/toasts";
+import { TokenEspieard } from "../../lib/toast/toasts";
 
 
 const TokenExpirationChecker: React.FC = () => {

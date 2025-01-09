@@ -80,14 +80,14 @@ const GetDefultProduct: React.FC = () => {
   };
 
   return (
-    <div className="px-32">
+    <div className="px-4 sm:px-8 lg:px-32">
       <div className="min-w-full text-center rounded-lg">
         <div className="top-0 z-10 text-gray-900">
           <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {products.map((product) => (
               <div key={product._id} className="relative">
                 <Link href={`/menu/${product._id}`} className="block">
-                  <div className="bg-slate-100 p-3 rounded-lg shadow-md text-center cursor-pointer">
+                  <div className="bg-slate-50 p-3 rounded-lg shadow-md text-center cursor-pointer">
                     <div className="flex justify-center items-center mx-auto mb-4">
                       {product.images && product.images.length > 0 && (
                         <img
@@ -110,7 +110,6 @@ const GetDefultProduct: React.FC = () => {
                     </p>
                     <span className="rounded flex items-center justify-center gap-4 text-xs font-medium text-primary-800 mb-4">
                       <FaRegHeart className="w-4 h-4" />
-                      <RiInformationLine className="w-5 h-6" />
                     </span>
                   </div>
                 </Link>

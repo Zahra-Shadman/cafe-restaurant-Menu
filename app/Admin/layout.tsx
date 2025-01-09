@@ -10,9 +10,7 @@ export default function DashboardLayout({
     <section className="flex">
       <AdminSidebar />
       <TokenExpirationChecker />
-      <div className="flex-1 p-4"> 
-        {children}
-      </div>
+      <div className="flex-1 p-4">{children}</div>
     </section>
   );
 }
