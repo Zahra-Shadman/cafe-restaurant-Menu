@@ -5,7 +5,14 @@ export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const userInfo = request.cookies.get("userInfo")?.value;
 
-  const userRole = userInfo ? JSON.parse(userInfo).role : null;
+  let userRole: string | null = null;
+  if (userInfo) {
+    try {
+      userRole = JSON.parse(userInfo).role;
+    } catch (error) {
+      console.error("Failed to parse userInfo:", error);
+    }
+  }
 
   const restrictedRoutes = [
     "/admin",
@@ -19,8 +26,10 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   );
 
-  if (userRole === "USER" && isRestrictedRoute) {
-    return NextResponse.redirect(new URL("/404", request.url));
+  if (!accessToken || userRole === "USER") {
+    if (isRestrictedRoute) {
+      return NextResponse.redirect(new URL("/404", request.url));
+    }
   }
 
   const protectedRoutes = ["/Shop/checkout", "/payment"];
@@ -29,7 +38,7 @@ export function middleware(request: NextRequest) {
   );
 
   if (isProtectedRoute && !accessToken) {
-    return NextResponse.redirect(new URL("/Login", request.url));
+    return NextResponse.redirect(new URL("/404", request.url));
   }
 
   return NextResponse.next();
