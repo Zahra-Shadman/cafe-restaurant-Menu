@@ -47,7 +47,7 @@ const Login: React.FC = () => {
         LoginSuccessful();
         router.push("/");
       }
-    } catch (err: any) {
+    } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         setError(err.response.data.message || "Login failed");
       } else {

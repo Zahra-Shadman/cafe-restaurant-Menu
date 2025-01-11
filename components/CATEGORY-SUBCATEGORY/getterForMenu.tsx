@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { categoriesUrl, caticons, subcategoriesUrl } from "@/api/urls";
+import { ICategory } from "@/types/category";
 
 interface CategorySubcategorySelectorProps {
   onCategoryChange: (categoryId: string | null) => void;
@@ -10,8 +11,8 @@ interface CategorySubcategorySelectorProps {
 const CategorySubcategorySelector: React.FC<
   CategorySubcategorySelectorProps
 > = ({ onCategoryChange, onSubcategoryChange }) => {
-  const [categories, setCategories] = useState<any[]>([]);
-  const [subcategories, setSubcategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [subcategories, setSubcategories] = useState<ICategory[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
   );

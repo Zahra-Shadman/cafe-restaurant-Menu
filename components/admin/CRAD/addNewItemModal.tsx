@@ -6,9 +6,10 @@ import { VscAdd } from "react-icons/vsc";
 
 import { z } from "zod";
 import { productSchema } from "@/lib/zod/add-product-validation";
+import { IProduct } from "@/types/category";
 
 interface AddItemsModelProps {
-  onProductAdded: (newProduct: any) => void;
+  onProductAdded: (newProduct: IProduct) => void;
 }
 
 const AddItemsModel: React.FC<AddItemsModelProps> = ({ onProductAdded }) => {

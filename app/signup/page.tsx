@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { signUpUrl } from "@/api/urls";
 import { ToastContainer } from "react-toastify";
@@ -65,10 +65,11 @@ const SignUp: React.FC = () => {
         SignupSuccessful();
         router.push("/Login");
       }
-    } catch (err: any) {
-      if (err.response) {
-        setError(err.response.data.message || "Signup failed");
-      } else if (err.request) {
+    } catch (err) {
+      const error = err as AxiosError; 
+      if (error.response) {
+        setError(error.message || "Signup failed");
+      } else if (error.request) {
         setError("No response from server");
       }
       console.error("Signup error:", err);

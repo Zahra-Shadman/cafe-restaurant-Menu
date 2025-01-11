@@ -14,7 +14,6 @@ export const productSchema = z.object({
     .max(1000, "تعداد وارد شده قابل سفارش نیست"),
   category: z.string().min(1, "انتخاب مجموعه ضروری است"),
   subcategory: z.string().min(1, "انتخاب زیر مجموعه ضروری است"),
-  images: z.any().optional(),
 });
 
 export type ProductSchemaType = z.infer<typeof productSchema>;
