@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 
 const images = ["/slide1.jpg", "/slide2.jpg", "/2222.jpg"];
 
@@ -39,7 +40,7 @@ const Slideshow: React.FC = () => {
                 : "-translate-x-full"
             }`}
           >
-            <img
+            <Image
               src={image}
               className="w-full h-full object-cover"
               alt={`Slide ${index + 1}`}

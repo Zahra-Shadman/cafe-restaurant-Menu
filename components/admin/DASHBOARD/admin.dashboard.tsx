@@ -1,6 +1,7 @@
 import { FaUserPlus } from "react-icons/fa";
 import { FaBasketShopping } from "react-icons/fa6";
 import { AiFillProduct } from "react-icons/ai";
+import Image from 'next/image';
 
 export default function DashComponent() {
   return (
@@ -49,7 +50,7 @@ export default function DashComponent() {
           <tbody>
             <tr className="border-t">
               <td className="py-4 flex items-center">
-                <img
+                <Image
                   src="https://placehold.co/40x40"
                   alt="User profile"
                   className="rounded-full mr-4"

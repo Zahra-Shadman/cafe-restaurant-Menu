@@ -3,6 +3,7 @@ import Slideshow from "./slider-home";
 import HomeFooter from "../HEADER-FOOTER/footer";
 import Link from "next/link";
 import { CiCoffeeBean } from "react-icons/ci";
+import Image from 'next/image';
 
 const ImageMainHome: React.FC = () => {
   return (
@@ -32,7 +33,7 @@ const ImageMainHome: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
         <div className="md:col-span-1">
-          <img
+          <Image
             src="/2222.jpg"
             alt="A table with various dishes and plants in the background"
             className="w-full h-auto rounded"
@@ -53,19 +54,19 @@ text-left px-3 py-2 font-mono text-lg"
           </p>
         </div>
         <div className="grid grid-cols-1 gap-4">
-          <img
+          <Image
             src="/555.jpg"
             alt="A bowl of food with garnish and bread"
             className="w-full h-auto rounded"
           />
 
-          <img
+          <Image
             src="/111.jpg"
             alt="A cozy cafe with plants and a person sitting"
             className="w-full h-auto rounded"
           />
 
-          <img
+          <Image
             src="slide4.jpg"
             alt="Coffee being brewed into a glass container"
             className="w-full h-auto rounded"

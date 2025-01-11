@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { categoriesUrl, caticons, subcategoriesUrl } from "@/api/urls";
 import { ICategory } from "@/types/category";
+import Image from 'next/image';
 
 interface CategorySubcategorySelectorProps {
   onCategoryChange: (categoryId: string | null) => void;
@@ -71,7 +72,7 @@ const CategorySubcategorySelector: React.FC<
             onClick={() => handleCategoryChange(category._id)}
           >
             <div className="flex flex-col items-center">
-              <img
+              <Image
                 src={`${caticons}${category.icon}`}
                 alt={category.name}
                 className="w-12 mb-1"

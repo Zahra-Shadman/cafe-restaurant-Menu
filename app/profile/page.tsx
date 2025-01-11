@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { FaPhone, FaUser } from "react-icons/fa";
 import { FaLocationDot, FaRegCircleUser } from "react-icons/fa6";
 import { IoMdArrowBack } from "react-icons/io";
+import Image from "next/image";
 
 const UserProfile: React.FC = () => {
   const initialUserData = JSON.parse(localStorage.getItem("userData") || "{}");
@@ -44,7 +45,7 @@ const UserProfile: React.FC = () => {
             <IoMdArrowBack className="w-5 h-5" />
           </Link>
           <div className="md:w-1/3 text-center mb-8 md:mb-0">
-            <img
+            <Image
               src="/user_icon_004.jpg"
               alt="Profile Picture"
               className="rounded-full w-48 h-48 mx-auto mb-4 border-4 border-indigo-800 dark:border-blue-900 transition-transform duration-300 hover:scale-105"

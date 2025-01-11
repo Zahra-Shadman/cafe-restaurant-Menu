@@ -8,6 +8,7 @@ import { loginUrl } from "@/api/urls";
 import { ToastContainer } from "react-toastify";
 import { LoginSuccessful } from "@/lib/toast/toasts";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -67,7 +68,7 @@ const Login: React.FC = () => {
                 <div className="px-4 md:px-0 lg:w-6/12">
                   <div className="md:mx-6 md:p-8 h-[400px]">
                     <div className="text-center">
-                      <img
+                      <Image
                         className="mx-auto w-48 h-auto"
                         src={"/Screenshot%202024-12-27%20144726.svg"}
                         alt="logo"

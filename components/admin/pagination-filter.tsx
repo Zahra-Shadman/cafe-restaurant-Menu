@@ -4,7 +4,7 @@ import { IProduct } from '@/types/category';
 import { useEffect, useState } from 'react';
 import { LiaEdit } from 'react-icons/lia';
 import { MdDelete } from 'react-icons/md';
-
+import Image from 'next/image';
 
 const ProductsTable = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -55,7 +55,7 @@ const ProductsTable = () => {
               <td className="border border-gray-300 p-2">
                 <div className="flex justify-center">
                   {product.images && product.images.length > 0 && (
-                    <img
+                    <Image
                       src={`http://localhost:8000/images/products/images/${product.images[0]}`}
                       alt={product.name}
                       width={170}

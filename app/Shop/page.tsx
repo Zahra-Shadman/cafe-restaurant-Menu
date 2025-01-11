@@ -23,7 +23,7 @@ export default function CartPage() {
             <div className="space-y-6">
               {items.length === 0 ? (
                 <div className="mx-auto flex-1 flex flex-col items-center justify-center space-y-4">
-                  <img src="/empty.svg" alt="empty" className="w-56" />
+                  <Image src="/empty.svg" alt="empty" className="w-56" />
                   <p className="text-center text-gray-500">
                     سبد خرید شما خالی است
                   </p>

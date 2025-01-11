@@ -7,6 +7,7 @@ import { IoChevronBackSharp } from "react-icons/io5";
 import { IProduct } from "@/types/category";
 import { IApiRes } from "@/types/api";
 import EditModal from "./edit.modal";
+import Image from 'next/image';
 
 export const EditTable: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -86,7 +87,7 @@ export const EditTable: React.FC = () => {
               </td>
               <td>
                 {product.images && product.images.length > 0 && (
-                  <img
+                  <Image
                     src={`http://localhost:8000/images/products/images/${product.images[0]}`}
                     alt={product.name}
                     className="w-20 h-20 object-cover rounded-md p-1"

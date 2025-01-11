@@ -1,7 +1,10 @@
+
+import Image from "next/image";
+
 export default function AboutAs() {
   return (
     <div>
-      <img src="/about.png" alt="about" className="mx-auto h-[500px]" />
+      <Image src="/about.png" alt="about" className="mx-auto h-[500px]" />
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div>
@@ -86,7 +89,7 @@ export default function AboutAs() {
           </form>
         </div>
         <div className="w-full md:w-1/2 p-4 flex flex-col items-center">
-          <img
+          <Image
             src="/MUG-ORANGE-SLOGAN-LAMIZ.webp"
             alt="A coffee cup with the text 'YOU'RE GOING TO FEEL BETTER SOON'"
             className="mb-4"

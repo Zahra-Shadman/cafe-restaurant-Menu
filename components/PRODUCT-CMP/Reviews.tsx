@@ -1,4 +1,5 @@
 import { FaStar } from "react-icons/fa6";
+import Image from 'next/image';
 
 export default function Reviews() {
   return (
@@ -58,10 +59,9 @@ export default function Reviews() {
         </div>
 
         <div className="flex items-start mt-8">
-          <img
+          <Image
             src="https://readymadeui.com/team-2.webp"
-            className="w-12 h-12 rounded-full border-2 border-white"
-          />
+            className="w-12 h-12 rounded-full border-2 border-white" alt={"red"}          />
           <div className="ml-3">
             <h4 className="text-sm font-bold">John Doe</h4>
             <div className="flex space-x-1 mt-1">

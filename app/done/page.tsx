@@ -1,13 +1,13 @@
 import Link from "next/link";
 import React from "react";
-
+import Image from "next/image";
 const PaymentSuccess: React.FC = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-50 to-green-50 dark:from-gray-900 dark:to-gray-800">
       <div className="w-full max-w-2xl p-4 bg-white shadow-2xl dark:bg-gray-900 sm:p-10 sm:rounded-3xl">
         <div className="text-center">
           <div className="flex items-center justify-center w-36 h-46 mx-auto mb-6 bg-green-100  dark:bg-green-700">
-            <img src="/orderdone.jpg" alt="" />
+            <Image src="/orderdone.jpg" alt="" />
           </div>
           <h1 className="text-4xl font-extrabold text-green-700 dark:text-green-400">
             !پرداخت با موفقیت انجام شد

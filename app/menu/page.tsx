@@ -16,6 +16,7 @@ import Skeleton from "@/components/SKETELONS/skeletonForMenu";
 import { useAppDispatch } from "@/redux/store";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { toast } from "@/hooks/use-toast";
+import Image from "next/image";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<IcardProduct[]>([]);
@@ -132,7 +133,7 @@ const ProductsPage = () => {
                 <div className="bg-slate-50 p-2 w-full rounded-lg shadow-md text-center cursor-pointer">
                   <div className="flex justify-center items-center mx-auto mb-4">
                     {product.images && product.images.length > 0 && (
-                      <img
+                      <Image
                         src={`${ImageUrl}${product.images[0]}`}
                         alt={product.name}
                         className="mx-auto mb-4"

@@ -1,12 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
 const OrderCancellation: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen ">
-      <img
+      <Image
         src="/vecteezy_cancel.jpg"
         alt="Order Cancellation"
         className=" w-64 mb-6"

@@ -9,10 +9,10 @@ import { IProduct } from "@/types/category";
 import { IApiRes } from "@/types/api";
 import { ImageUrl } from "@/api/urls";
 import { FaRegHeart } from "react-icons/fa";
-import { RiInformationLine } from "react-icons/ri";
 import { useAppDispatch } from "@/redux/store";
 import { addToCart } from "@/redux/slices/cartSlice";
 import { useToast } from "@/hooks/use-toast";
+import Image from 'next/image';
 
 const GetDefultProduct: React.FC = () => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -90,7 +90,7 @@ const GetDefultProduct: React.FC = () => {
                   <div className="bg-slate-50 p-3 rounded-lg shadow-md text-center cursor-pointer">
                     <div className="flex justify-center items-center mx-auto mb-4">
                       {product.images && product.images.length > 0 && (
-                        <img
+                        <Image
                           src={`${ImageUrl}${product.images[0]}`}
                           alt={product.name}
                           className="mx-auto mb-4"
