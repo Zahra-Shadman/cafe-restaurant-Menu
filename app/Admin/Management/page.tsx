@@ -1,7 +1,9 @@
-export default function Home() {
+import EditTable from "@/components/admin/CRAD/edit-table";
+
+export default function Managment() {
     return (
       <div>
-    managmennnnttt
+ <EditTable />
       </div>
     );
   }
